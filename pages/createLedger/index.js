@@ -163,7 +163,7 @@ Page({
 
   // 创建账本
   create(){
-    const { name, desc, fileId } = this.data;
+    const { name, desc, coverUrl } = this.data;
 
     // 验证名称
     if(!name){
@@ -184,7 +184,7 @@ Page({
       data: {
         ledgerName: name,
         ledgerDesc: desc,
-        ledgerImage: fileId || '' 
+        ledgerImage: coverUrl || '' 
       },
       header: {
         'content-type': 'application/json'
