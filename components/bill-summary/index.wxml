@@ -1,0 +1,58 @@
+<view class="bill-summary">
+  <!-- 加载中 -->
+  <block wx:if="{{loading}}">
+    <view class="loading">加载中...</view>
+  </block>
+
+  <!-- 错误提示 -->
+  <block wx:elif="{{error}}">
+    <view class="error">{{error}}</view>
+  </block>
+
+  <!-- 汇总数据 -->
+  <block wx:else>
+    <view class="summary-header">
+      <view class="month-selector" bindtap="showMonthPicker">
+        <text class="month-text">{{currentYear}}年{{currentMonth}}月</text>
+        <text class="month-arrow">▼</text>
+      </view>
+    </view>
+
+    <view class="summary-content">
+      <view class="summary-item">
+        <view class="item-label">收入</view>
+        <view class="item-value income">¥{{formatAmount(income)}}</view>
+      </view>
+      <view class="summary-item">
+        <view class="item-label">支出</view>
+        <view class="item-value expense">¥{{formatAmount(expense)}}</view>
+      </view>
+      <view class="summary-item">
+        <view class="item-label">结余</view>
+        <view class="item-value balance {{balance >= 0 ? 'positive' : 'negative'}}">¥{{formatAmount(balance)}}</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 月份选择器 -->
+  <view class="picker-modal" wx:if="{{showPicker}}" catchtouchmove="preventTouchMove">
+    <view class="picker-mask" bindtap="hideMonthPicker"></view>
+    <view class="picker-content">
+      <view class="picker-header">
+        <view class="picker-cancel" bindtap="hideMonthPicker">取消</view>
+        <view class="picker-title">选择月份</view>
+        <view class="picker-confirm" bindtap="confirmPicker">确定</view>
+      </view>
+      <view class="picker-body">
+        <picker-view class="picker-view" indicator-style="height: 40px;" value="{{[years.indexOf(currentYear), months.indexOf(currentMonth)]}}">
+          <picker-view-column>
+            <view wx:for="{{years}}" wx:key="*this" class="picker-item">{{item}}年</view>
+          </picker-view-column>
+          <picker-view-column>
+            <view wx:for="{{months}}" wx:key="*this" class="picker-item">{{item}}月</view>
+          </picker-view-column>
+        </picker-view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "账单",
+  "usingComponents": {
+    "bill-list": "/components/bill-list/index"
+  }
+} 

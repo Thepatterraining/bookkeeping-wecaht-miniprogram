@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "add-form": "/components/addForm/index",
+    "bill-list": "/components/bill-list/index"
+  }
+}

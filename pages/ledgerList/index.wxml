@@ -1,0 +1,103 @@
+<view class="container">
+  <view class="page-title">神象云账本</view>
+
+  <view class="search-bar">
+    <text class="icon">🔍</text>
+    <input class="search-input" placeholder="搜索我的账本" value="{{searchQuery}}" bindinput="onSearch" />
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{activeTab==='all'?'active':''}}" data-tab="all" bindtap="switchTab">全部</view>
+    <view class="tab {{activeTab==='mine'?'active':''}}" data-tab="mine" bindtap="switchTab">我创建</view>
+    <view class="tab {{activeTab==='joined'?'active':''}}" data-tab="joined" bindtap="switchTab">我参与</view>
+  </view>
+
+  <block wx:if="{{filtered && filtered.length}}">
+    <view class="ledger-card" wx:for="{{filtered}}" wx:key="ledgerNo">
+      <view class="card-content" bindtap="goDetail" data-no="{{item.ledgerNo}}">
+        <image class="cover" src="{{item.ledgerImage || defaultCover}}" mode="aspectFill" binderror="handleImageError" data-index="{{index}}"></image>
+        <view class="info">
+          <view class="row">
+            <text class="name">{{item.ledgerName || '未命名账本'}}</text>
+            <text class="tag">{{item.isOwner ? '我创建' : '我参与'}}</text>
+          </view>
+          <view class="meta">{{item.ledgerDesc || '暂无描述'}}</view>
+        </view>
+      </view>
+      <view class="more" catchtap="showMoreOptions" data-ledger="{{item}}">⋯</view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="empty-container">
+      <view class="empty">暂无账本</view>
+      <view class="login-tip" wx:if="{{!hasLogin}}">
+        <text>登录后查看您的账本</text>
+        <button class="login-btn" type="primary" size="mini" bindtap="showLogin">立即登录</button>
+      </view>
+    </view>
+  </block>
+
+  <view class="action-buttons">
+    <view class="create-btn" bindtap="showJoinModal">
+      <text class="plus">🔗</text>
+      <text>加入账本</text>
+    </view>
+    <navigator class="create-btn create-new-btn" url="/pages/createLedger/index">
+      <text class="plus">＋</text>
+      <text>创建账本</text>
+    </navigator>
+  </view>
+
+  <!-- 登录组件 -->
+  <login
+    show="{{showLoginModal}}"
+    callbackPage="{{currentPage}}"
+    bindloginsuccess="onLoginSuccess"
+    bindloginfail="onLoginFail"
+    bindclose="closeLogin">
+  </login>
+
+  <!-- 更多选项弹窗 -->
+  <view class="options-modal" wx:if="{{showOptionsModal}}" catchtouchmove="preventTouchMove">
+    <view class="options-backdrop" bindtap="hideMoreOptions"></view>
+    <view class="options-content">
+      <view class="option-item" bindtap="showInviteModal">
+        <text class="option-icon">👥</text>
+        <text class="option-text">邀请成员</text>
+      </view>
+      <!-- 只有创建者可以删除账本 -->
+      <view class="option-item delete-option" bindtap="showDeleteConfirm" wx:if="{{currentLedger.isOwner}}">
+        <text class="option-icon">🗑️</text>
+        <text class="option-text">删除账本</text>
+      </view>
+      <view class="option-item" bindtap="hideMoreOptions">
+        <text class="option-icon">✖</text>
+        <text class="option-text">取消</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 邀请成员弹窗 -->
+  <view class="invite-modal" wx:if="{{showInviteModal}}" catchtouchmove="preventTouchMove">
+    <view class="invite-backdrop" bindtap="hideInviteModal"></view>
+    <view class="invite-content">
+      <view class="invite-title">邀请成员</view>
+      <view class="invite-desc">分享以下邀请码给好友加入账本</view>
+      <view class="invite-code">{{currentLedger.inviteCode || 'ABC123'}}</view>
+      <button class="copy-btn" bindtap="copyInviteCode">复制邀请码</button>
+      <view class="close-btn" bindtap="hideInviteModal">关闭</view>
+    </view>
+  </view>
+
+  <!-- 加入账本弹窗 -->
+  <view class="join-modal" wx:if="{{showJoinModal}}" catchtouchmove="preventTouchMove">
+    <view class="join-backdrop" bindtap="hideJoinModal"></view>
+    <view class="join-content">
+      <view class="join-title">加入账本</view>
+      <view class="join-desc">请输入好友分享的邀请码</view>
+      <input class="join-input" placeholder="请输入邀请码" value="{{joinCode}}" bindinput="onJoinCodeInput" />
+      <button class="join-btn" bindtap="joinLedger">加入</button>
+      <view class="close-btn" bindtap="hideJoinModal">取消</view>
+    </view>
+  </view>
+</view> 

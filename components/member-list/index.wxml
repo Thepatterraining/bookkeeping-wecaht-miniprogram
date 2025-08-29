@@ -1,0 +1,43 @@
+<view class="member-list">
+  <!-- 加载中 -->
+  <block wx:if="{{loading}}">
+    <view class="loading">加载中...</view>
+  </block>
+
+  <!-- 错误提示 -->
+  <block wx:elif="{{error}}">
+    <view class="error">{{error}}</view>
+  </block>
+
+  <!-- 空列表 -->
+  <block wx:elif="{{members.length === 0}}">
+    <view class="empty">暂无成员</view>
+  </block>
+
+  <!-- 成员列表 -->
+  <block wx:else>
+    <view class="member-header">
+      <text class="member-count">共{{members.length}}位成员</text>
+    </view>
+
+    <view class="member-items">
+      <view class="member-item" wx:for="{{members}}" wx:key="userNo" bindtap="onTapMember" data-userno="{{item.userNo}}">
+        <!-- 成员头像 -->
+        <image class="member-avatar" src="{{item.userAvatar || '/assets/images/default-avatar.png'}}" mode="aspectFill"></image>
+
+        <!-- 成员信息 -->
+        <view class="member-info">
+          <view class="member-name">
+            <text>{{item.userName}}</text>
+            <text class="member-role {{item.roleType}}">{{item.role}}</text>
+            <text class="member-current" wx:if="{{currentUser && currentUser.userNo === item.userNo}}">(我)</text>
+          </view>
+          <view class="member-join-time">加入时间：{{item.joinTime}}</view>
+        </view>
+
+        <!-- 更多操作按钮 -->
+        <view class="member-more" catchtap="showMoreActions" data-userno="{{item.userNo}}">⋯</view>
+      </view>
+    </view>
+  </block>
+</view>

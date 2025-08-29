@@ -1,0 +1,10 @@
+.bill-list{ background:#fff; border-radius:16rpx; padding:12rpx 0 }
+.loading,.error,.empty{ padding:40rpx; text-align:center; color:#999 }
+.bill-item{ display:flex; align-items:center; justify-content:space-between; padding:24rpx 28rpx; border-bottom:1rpx solid #f2f3f5 }
+.bill-item:last-child{ border-bottom:none }
+.bill-left{ display:flex; align-items:center }
+.icon{ width:64rpx; height:64rpx; border-radius:16rpx; background:linear-gradient(135deg,#e0e7ff,#f5f3ff); margin-right:20rpx }
+.meta{ display:flex; flex-direction:column }
+.category{ font-size:28rpx; color:#333; font-weight:600 }
+.time{ font-size:22rpx; color:#9aa3b2; margin-top:6rpx }
+.bill-right .amount{ font-size:30rpx; font-weight:700; color:#111827 } 

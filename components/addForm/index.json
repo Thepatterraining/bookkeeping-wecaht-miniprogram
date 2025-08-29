@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "date-picker": "/components/date-picker/index",
+    "category-selector": "/components/category-selector/index"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "bill-summary": "/components/bill-summary/index"
+  }
+} 

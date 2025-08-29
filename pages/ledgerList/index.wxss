@@ -1,0 +1,261 @@
+.container{padding:24rpx;position:relative}
+.page-title{font-size:36rpx;font-weight:600;margin-bottom:24rpx;text-align:center}
+.search-bar{background:#f5f5f5;border-radius:32rpx;padding:12rpx 24rpx;display:flex;align-items:center;margin-bottom:24rpx}
+.search-bar .icon{margin-right:12rpx;color:#999}
+.search-input{flex:1;font-size:28rpx}
+.tabs{display:flex;margin-bottom:24rpx}
+.tab{flex:1;text-align:center;padding:16rpx 0;font-size:28rpx;color:#666;position:relative}
+.tab.active{color:#07c160;font-weight:500}
+.tab.active:after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40rpx;height:4rpx;background:#07c160;border-radius:2rpx}
+.ledger-card{background:#fff;border-radius:12rpx;padding:20rpx;margin-bottom:16rpx;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2rpx 8rpx rgba(0,0,0,0.05)}
+.card-content{display:flex;flex:1;align-items:center}
+.cover{width:100rpx;height:100rpx;border-radius:8rpx;margin-right:16rpx}
+.info{flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8rpx}
+.name{font-size:30rpx;font-weight:500;color:#333}
+.tag{font-size:22rpx;color:#07c160;background:rgba(7,193,96,0.1);padding:4rpx 12rpx;border-radius:20rpx}
+.meta{font-size:24rpx;color:#999}
+.more{font-size:36rpx;color:#999;padding:10rpx;cursor:pointer}
+.empty-container{text-align:center;padding:60rpx 0}
+.empty{font-size:28rpx;color:#999;margin-bottom:20rpx}
+.login-tip{font-size:26rpx;color:#666}
+.login-btn{margin-top:16rpx;font-size:26rpx}
+
+/* 底部操作按钮 */
+.action-buttons {
+  position: fixed;
+  bottom: 48rpx;
+  right: 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.create-btn {
+  background: #07c160;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx 32rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(7, 193, 96, 0.3);
+  margin-bottom: 20rpx;
+}
+
+.create-new-btn {
+  background: #07c160;
+}
+
+.plus {
+  font-size: 36rpx;
+  margin-right: 8rpx;
+}
+
+/* 更多选项弹窗样式 */
+.options-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.options-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.options-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 30rpx 0;
+  animation: slideUp 0.3s ease;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 40rpx;
+}
+
+.option-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.option-text {
+  font-size: 32rpx;
+  color: #333;
+}
+
+/* 删除选项样式 */
+.delete-option {
+  color: #ff4d4f;
+}
+
+.delete-option .option-text {
+  color: #ff4d4f;
+}
+
+/* 邀请成员弹窗样式 */
+.invite-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+}
+
+.invite-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.invite-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx 30rpx;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.invite-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+}
+
+.invite-desc {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+.invite-code {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #07c160;
+  background-color: rgba(7, 193, 96, 0.1);
+  padding: 20rpx;
+  border-radius: 8rpx;
+  margin-bottom: 30rpx;
+  letter-spacing: 4rpx;
+}
+
+.copy-btn {
+  background-color: #07c160;
+  color: #fff;
+  font-size: 30rpx;
+  padding: 16rpx 0;
+  border-radius: 40rpx;
+  margin-bottom: 20rpx;
+}
+
+.close-btn {
+  font-size: 28rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+/* 加入账本弹窗样式 */
+.join-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+}
+
+.join-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.join-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx 30rpx;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.join-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+}
+
+.join-desc {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+.join-input {
+  background-color: #f5f5f5;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+  letter-spacing: 2rpx;
+}
+
+.join-btn {
+  background-color: #07c160;
+  color: #fff;
+  font-size: 30rpx;
+  padding: 16rpx 0;
+  border-radius: 40rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 动画效果 */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

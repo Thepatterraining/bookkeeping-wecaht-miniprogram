@@ -1,0 +1,23 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 顶部统计卡片 -->
+  <view class="stat-card">
+    <view class="month-selector">
+      <text class="month">{{currentMonth}}月</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="amount-info">
+      <view class="income">
+        <text class="label">收入</text>
+        <text class="value">¥{{totalIncome}}</text>
+      </view>
+      <view class="expense">
+        <text class="label">支出</text>
+        <text class="value">¥{{totalExpense}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 账单列表 -->
+  <bill-list ledgerNo="{{ledgerNo}}" bind:itemtap="showBillDetail" />
+</view>

@@ -1,0 +1,58 @@
+<view class="container">
+  <view class="type-selector">
+    <view class="type {{type === 'expense' ? 'active' : ''}}" bindtap="setType" data-type="expense">支出</view>
+    <view class="type {{type === 'income' ? 'active' : ''}}" bindtap="setType" data-type="income">收入</view>
+  </view>
+
+  <view class="amount-input">
+    <text class="currency">¥</text>
+    <input type="digit" value="{{amount}}" placeholder="请输入金额" bindinput="onAmountInput" />
+  </view>
+
+  <view class="form-item" bindtap="openCategoryPopup">
+    <text class="label">分类</text>
+    <view class="picker">{{selectedCategory || '选择分类'}}</view>
+  </view>
+
+  <view class="form-item" bindtap="openDatePicker">
+    <text class="label">日期</text>
+    <view class="picker">{{displayDate || '选择日期'}}</view>
+  </view>
+
+  <view class="form-item">
+    <text class="label">循环记账</text>
+    <switch checked="{{isRecurring}}" bindchange="toggleRecurring" color="#07c160" />
+  </view>
+
+  <view class="form-item" wx:if="{{isRecurring}}">
+    <text class="label">循环周期</text>
+    <picker bindchange="onRecurringTypeChange" value="{{recurringTypeIndex}}" range="{{recurringTypes}}" range-key="label">
+      <view class="picker">{{recurringTypes[recurringTypeIndex].label}}</view>
+    </picker>
+  </view>
+
+  <view class="form-item">
+    <text class="label">备注</text>
+    <input type="text" value="{{remark}}" placeholder="添加备注" bindinput="onRemarkInput" />
+  </view>
+
+  <view class="submit-btn {{isFormValid ? 'active' : ''}} {{submitting ? 'disabled' : ''}}" bindtap="submitBill">
+    保存
+  </view>
+
+  <category-selector
+    show="{{showCategoryPopup}}"
+    selectedCategory="{{selectedCategory}}"
+    selectedCategoryNo="{{selectedCategoryNo}}"
+    bind:select="onCategorySelected"
+    bind:close="closeCategoryPopup"
+  />
+
+  <!-- 日期选择器组件 -->
+  <date-picker
+    show="{{showDatePicker}}"
+    defaultDate="{{date}}"
+    bindconfirm="onDateConfirm"
+    bindclose="closeDatePicker">
+  </date-picker>
+</view> 

@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="header">创建账本</view>
+
+  <view class="form-item cover-item">
+    <text class="label">封面图</text>
+    <view class="cover-right">
+      <view class="cover-upload" bindtap="chooseCover">
+        <image wx:if="{{coverUrl}}" src="{{coverUrl}}" mode="aspectFill" class="cover-image"></image>
+        <view wx:else class="upload-placeholder">
+          <text class="upload-icon">+</text>
+          <text class="upload-text">上传封面</text>
+        </view>
+      </view>
+      <text wx:if="{{coverError}}" class="error-tip">{{coverError}}</text>
+      <text wx:else class="tip-text">建议尺寸200x200，不超过2MB</text>
+    </view>
+  </view>
+
+  <view class="form-item">
+    <text class="label">名称</text>
+    <input value="{{name}}" placeholder="请输入账本名称" bindinput="onName" />
+  </view>
+  <view class="form-item">
+    <text class="label">描述</text>
+    <input value="{{desc}}" placeholder="可选，简要说明" bindinput="onDesc" />
+  </view>
+  <view class="submit-btn {{name ? 'active' : ''}}" bindtap="create">创建</view>
+</view> 

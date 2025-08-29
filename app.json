@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/ledgerList/index",
+    "pages/createLedger/index",
+    "pages/mine/index",
+    "pages/ledgerDetail/detail",
+    "pages/index/index",
+    "pages/add/add",
+    "pages/statistics/statistics",
+    "pages/memberManagement/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "记一笔",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#07c160",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/ledgerList/index",
+        "text": "我的账本",
+        "iconPath": "assets/icons/bill.png",
+        "selectedIconPath": "assets/icons/bill-active.png"
+      },
+      {
+        "pagePath": "pages/createLedger/index",
+        "text": "创建账本",
+        "iconPath": "assets/icons/add.png",
+        "selectedIconPath": "assets/icons/add-active.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "assets/icons/statistics.png",
+        "selectedIconPath": "assets/icons/statistics-active.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "login": "/components/login/index",
+    "date-picker": "/components/date-picker/index"
+  }
+} 

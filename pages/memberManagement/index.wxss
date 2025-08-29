@@ -1,0 +1,113 @@
+.container {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f8f8;
+}
+
+/* 页面头部 */
+.header {
+  background-color: #fff;
+  padding: 30rpx 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 操作菜单 */
+.action-sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.action-sheet-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.action-sheet-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+}
+
+.action-sheet-header {
+  padding: 30rpx 20rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.action-sheet-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.action-sheet-role {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.action-sheet-actions {
+  padding: 20rpx 0;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 40rpx;
+}
+
+.action-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.action-text {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.action-sheet-cancel {
+  padding: 24rpx 0;
+  text-align: center;
+  font-size: 32rpx;
+  color: #999;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+/* 动画效果 */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

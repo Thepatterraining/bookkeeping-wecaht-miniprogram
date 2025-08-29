@@ -1,0 +1,104 @@
+.member-list {
+  padding: 20rpx;
+}
+
+/* 加载中、错误、空列表样式 */
+.loading, .error, .empty {
+  text-align: center;
+  padding: 40rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.error {
+  color: #ff4d4f;
+}
+
+/* 成员列表头部 */
+.member-header {
+  margin-bottom: 20rpx;
+}
+
+.member-count {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 成员列表项 */
+.member-items {
+  background-color: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  position: relative;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+/* 成员头像 */
+.member-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  background-color: #f5f5f5;
+}
+
+/* 成员信息 */
+.member-info {
+  flex: 1;
+}
+
+.member-name {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+  display: flex;
+  align-items: center;
+}
+
+.member-role {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  margin-left: 12rpx;
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.member-role.owner {
+  background-color: rgba(255, 159, 74, 0.1);
+  color: #ff9f4a;
+}
+
+.member-role.admin {
+  background-color: rgba(7, 193, 96, 0.1);
+  color: #07c160;
+}
+
+.member-current {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 8rpx;
+}
+
+.member-join-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 更多操作按钮 */
+.member-more {
+  font-size: 36rpx;
+  color: #999;
+  padding: 10rpx;
+  cursor: pointer;
+}

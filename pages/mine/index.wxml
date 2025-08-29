@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="header">我的</view>
+
+  <!-- 未登录状态 -->
+  <view class="user-info" wx:if="{{!hasLogin}}">
+    <view class="avatar-placeholder">
+      <image src="/assets/icons/statistics.png" mode="aspectFill"></image>
+    </view>
+    <view class="login-btn">
+      <button type="primary" bindtap="handleLogin">微信登录</button>
+    </view>
+    <view class="login-tips">登录后可同步账本数据</view>
+  </view>
+
+  <!-- 已登录状态 -->
+  <view class="user-info" wx:else>
+    <view class="avatar-container">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+    </view>
+    <view class="user-name">{{userInfo.username}}</view>
+    <view class="logout-btn">
+      <button size="mini" type="default" bindtap="handleLogout">退出登录</button>
+    </view>
+  </view>
+
+  <view class="block">
+    <view class="menu-list">
+      <view class="menu-item">
+        <view class="menu-icon">
+          <image src="/assets/icons/add.png" mode="aspectFit"></image>
+        </view>
+        <view class="menu-text">设置</view>
+        <view class="menu-arrow">></view>
+      </view>
+      <view class="menu-item">
+        <view class="menu-icon">
+          <image src="/assets/icons/bill.png" mode="aspectFit"></image>
+        </view>
+        <view class="menu-text">关于我们</view>
+        <view class="menu-arrow">></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 登录组件 -->
+  <login
+    show="{{showLoginModal}}"
+    callbackPage="{{currentPage}}"
+    bindloginsuccess="onLoginSuccess"
+    bindloginfail="onLoginFail"
+    bindclose="closeLogin">
+  </login>
+</view> 

@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="header">
+    <view class="title">成员管理</view>
+    <view class="subtitle">{{ledgerInfo.ledgerName || '账本'}}</view>
+  </view>
+
+  <!-- 成员列表组件 -->
+  <member-list
+    id="memberList"
+    ledgerNo="{{ledgerNo}}"
+    bindmembertap="handleMemberTap"
+    bindmoreactions="handleMoreActions"
+  />
+
+  <!-- 操作菜单 -->
+  <view class="action-sheet" wx:if="{{showActionSheet}}">
+    <view class="action-sheet-mask" bindtap="closeActionSheet"></view>
+    <view class="action-sheet-content">
+      <view class="action-sheet-header">
+        <text class="action-sheet-title">{{currentMember.userName}}</text>
+        <text class="action-sheet-role">{{currentMember.role}}</text>
+      </view>
+
+      <view class="action-sheet-actions">
+        <!-- 只有创建者可以设置管理员 -->
+        <view class="action-item" bindtap="setAsAdmin" wx:if="{{isOwner && currentMember.roleType !== 'owner' && currentMember.roleType !== 'admin'}}">
+          <text class="action-icon">👑</text>
+          <text class="action-text">设为管理员</text>
+        </view>
+
+        <!-- 创建者和管理员可以移除普通成员 -->
+        <view class="action-item" bindtap="removeMember" wx:if="{{(isOwner || isAdmin) && currentMember.roleType === 'member'}}">
+          <text class="action-icon">❌</text>
+          <text class="action-text">移除成员</text>
+        </view>
+
+        <!-- 创建者可以移除管理员 -->
+        <view class="action-item" bindtap="removeMember" wx:if="{{isOwner && currentMember.roleType === 'admin'}}">
+          <text class="action-icon">❌</text>
+          <text class="action-text">移除管理员</text>
+        </view>
+      </view>
+
+      <view class="action-sheet-cancel" bindtap="closeActionSheet">取消</view>
+    </view>
+  </view>
+</view>

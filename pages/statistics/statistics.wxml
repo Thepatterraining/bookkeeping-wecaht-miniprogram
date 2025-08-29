@@ -1,0 +1,81 @@
+<!--pages/statistics/statistics.wxml-->
+<view class="container">
+  <!-- 时间选择器 -->
+  <view class="time-selector">
+    <picker 
+      mode="date" 
+      fields="month" 
+      value="{{currentMonth}}" 
+      bindchange="onMonthChange"
+    >
+      <view class="picker-content">
+        {{formatMonth(currentMonth)}}
+        <text class="arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 收支概览 -->
+  <view class="overview-card">
+    <view class="overview-item">
+      <text class="label">收入</text>
+      <text class="value income">¥{{totalIncome}}</text>
+    </view>
+    <view class="overview-item">
+      <text class="label">支出</text>
+      <text class="value expense">¥{{totalExpense}}</text>
+    </view>
+    <view class="overview-item">
+      <text class="label">结余</text>
+      <text class="value {{balanceClass}}">¥{{balance}}</text>
+    </view>
+  </view>
+
+  <!-- 支出分类统计 -->
+  <view class="stat-section">
+    <view class="section-header">
+      <text class="title">支出分类</text>
+      <text class="total">总计: ¥{{totalExpense}}</text>
+    </view>
+    <view class="category-list">
+      <view 
+        wx:for="{{expenseCategories}}" 
+        wx:key="name"
+        class="category-item"
+      >
+        <view class="category-info">
+          <text class="iconfont {{item.icon}}"></text>
+          <text class="name">{{item.name}}</text>
+        </view>
+        <view class="category-amount">
+          <text class="amount">¥{{item.amount}}</text>
+          <text class="percentage">{{item.percentage}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 收入分类统计 -->
+  <view class="stat-section">
+    <view class="section-header">
+      <text class="title">收入分类</text>
+      <text class="total">总计: ¥{{totalIncome}}</text>
+    </view>
+    <view class="category-list">
+      <view 
+        wx:for="{{incomeCategories}}" 
+        wx:key="name"
+        class="category-item"
+      >
+        <view class="category-info">
+          <text class="iconfont {{item.icon}}"></text>
+          <text class="name">{{item.name}}</text>
+        </view>
+        <view class="category-amount">
+          <text class="amount">¥{{item.amount}}</text>
+          <text class="percentage">{{item.percentage}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

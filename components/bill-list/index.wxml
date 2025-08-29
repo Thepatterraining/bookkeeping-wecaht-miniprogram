@@ -1,0 +1,31 @@
+<view class="bill-list">
+  <!-- 账单汇总组件 -->
+  <bill-summary ledgerNo="{{ledgerNo}}" bindsummaryupdate="onSummaryUpdate" />
+
+  <!-- 账单列表 -->
+  <block wx:if="{{loading}}">
+    <view class="loading">加载中...</view>
+  </block>
+  <block wx:elif="{{error}}">
+    <view class="error">{{error}}</view>
+  </block>
+  <block wx:elif="{{bills.length === 0}}">
+    <view class="empty">暂无账单</view>
+  </block>
+  <block wx:else>
+    <block wx:for="{{bills}}" wx:key="no">
+      <view class="bill-item" bindtap="onTapItem" data-no="{{item.no}}">
+        <view class="bill-left">
+          <view class="icon"></view>
+          <view class="meta">
+            <text class="category">{{item.categoryName}}</text>
+            <text class="time">{{formatTime(item.time)}}</text>
+          </view>
+        </view>
+        <view class="bill-right">
+          <text class="amount">¥{{formatAmount(item.amount)}}</text>
+        </view>
+      </view>
+    </block>
+  </block>
+</view> 

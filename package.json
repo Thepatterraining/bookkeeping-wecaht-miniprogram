@@ -1,0 +1,19 @@
+{
+  "name": "accounting-miniprogram",
+  "version": "1.0.0",
+  "description": "记账微信小程序",
+  "main": "app.js",
+  "scripts": {
+    "dev": "vue-cli-service build --watch",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "vue": "^3.2.0",
+    "vuex": "^4.0.0",
+    "dayjs": "^1.11.0"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^5.0.0",
+    "@vue/compiler-sfc": "^3.2.0"
+  }
+} 

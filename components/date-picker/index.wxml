@@ -1,0 +1,49 @@
+<view class="date-picker-modal" wx:if="{{show}}">
+  <view class="date-picker-container">
+    <view class="date-picker-header">
+      <view class="date-picker-title">选择日期</view>
+      <view class="date-picker-close" bindtap="cancel">×</view>
+    </view>
+
+    <view class="date-picker-content">
+      <!-- 月份导航 -->
+      <view class="month-nav">
+        <view class="month-nav-btn" bindtap="prevMonth">
+          <text class="iconfont">◀</text>
+        </view>
+        <view class="month-title">{{year}}年{{month}}月</view>
+        <view class="month-nav-btn" bindtap="nextMonth">
+          <text class="iconfont">▶</text>
+        </view>
+      </view>
+
+      <!-- 星期标题 -->
+      <view class="weekdays">
+        <view class="weekday" wx:for="{{weekdays}}" wx:key="index">{{item}}</view>
+      </view>
+
+      <!-- 日期网格 -->
+      <view class="days-grid">
+        <view
+          class="day-cell {{item.month !== 'current' ? 'other-month' : ''}} {{item.timestamp === selectedDate ? 'selected' : ''}} {{item.timestamp === today ? 'today' : ''}}"
+          wx:for="{{days}}"
+          wx:key="timestamp"
+          data-timestamp="{{item.timestamp}}"
+          data-month="{{item.month}}"
+          bindtap="selectDate">
+          <view class="day-number">{{item.date}}</view>
+        </view>
+      </view>
+
+      <!-- 底部操作栏 -->
+      <view class="date-picker-footer">
+        <view class="today-btn" bindtap="selectToday">今天</view>
+        <view class="action-btns">
+          <button class="cancel-btn" bindtap="cancel">取消</button>
+          <button class="confirm-btn" type="primary" bindtap="confirm">确定</button>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="date-picker-mask" bindtap="cancel"></view>
+</view>

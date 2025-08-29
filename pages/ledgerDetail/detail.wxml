@@ -1,0 +1,56 @@
+<view class="container">
+  <view class="tabs">
+    <view class="tab {{tab==='bill' ? 'active' : ''}}" data-tab="bill" bindtap="switchTab">账单</view>
+    <view class="tab {{tab==='add' ? 'active' : ''}}" data-tab="add" bindtap="switchTab">记账</view>
+    <view class="tab {{tab==='stat' ? 'active' : ''}}" data-tab="stat" bindtap="switchTab">统计</view>
+    <view class="tab {{tab==='setting' ? 'active' : ''}}" data-tab="setting" bindtap="switchTab">设置</view>
+  </view>
+  <view class="content">
+    <block wx:if="{{tab==='bill'}}">
+      <bill-list ledgerNo="{{ledgerNo}}" />
+    </block>
+    <block wx:if="{{tab==='add'}}">
+      <add-form ledgerNo="{{ledgerNo}}" />
+    </block>
+    <block wx:if="{{tab==='stat'}}">
+      <navigator url="/pages/statistics/statistics?ledgerNo={{ledgerNo}}">打开统计页</navigator>
+    </block>
+    <block wx:if="{{tab==='setting'}}">
+      <view class="setting-container">
+        <view class="setting-header">
+          <view class="setting-title">账本设置</view>
+        </view>
+        <view class="setting-list">
+          <navigator url="/pages/memberManagement/index?ledgerNo={{ledgerNo}}" class="setting-item">
+            <view class="setting-item-left">
+              <text class="setting-icon">👥</text>
+              <text class="setting-name">成员管理</text>
+            </view>
+            <text class="setting-arrow">></text>
+          </navigator>
+          <view class="setting-item">
+            <view class="setting-item-left">
+              <text class="setting-icon">🔔</text>
+              <text class="setting-name">消息通知</text>
+            </view>
+            <text class="setting-arrow">></text>
+          </view>
+          <view class="setting-item">
+            <view class="setting-item-left">
+              <text class="setting-icon">🔒</text>
+              <text class="setting-name">隐私设置</text>
+            </view>
+            <text class="setting-arrow">></text>
+          </view>
+          <view class="setting-item">
+            <view class="setting-item-left">
+              <text class="setting-icon">📝</text>
+              <text class="setting-name">编辑账本信息</text>
+            </view>
+            <text class="setting-arrow">></text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view> 

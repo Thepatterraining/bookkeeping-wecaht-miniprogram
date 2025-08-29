@@ -1,0 +1,176 @@
+.bill-summary {
+  background-color: #fff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* 加载中、错误提示样式 */
+.loading, .error {
+  text-align: center;
+  padding: 30rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.error {
+  color: #ff4d4f;
+}
+
+/* 汇总头部 */
+.summary-header {
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  display: flex;
+  justify-content: center;
+}
+
+.month-selector {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 30rpx;
+  cursor: pointer;
+}
+
+.month-text {
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 8rpx;
+}
+
+.month-arrow {
+  font-size: 20rpx;
+  color: #999;
+}
+
+/* 汇总内容 */
+.summary-content {
+  display: flex;
+  padding: 30rpx 20rpx;
+}
+
+.summary-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.summary-item:not(:last-child):after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 1rpx;
+  background-color: #f0f0f0;
+}
+
+.item-label {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 12rpx;
+}
+
+.item-value {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.income {
+  color: #07c160;
+}
+
+.expense {
+  color: #ff9f4a;
+}
+
+.balance.positive {
+  color: #07c160;
+}
+
+.balance.negative {
+  color: #ff4d4f;
+}
+
+/* 月份选择器 */
+.picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.picker-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.picker-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  animation: slideUp 0.3s ease;
+}
+
+.picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.picker-cancel, .picker-confirm {
+  font-size: 30rpx;
+  padding: 10rpx;
+}
+
+.picker-cancel {
+  color: #999;
+}
+
+.picker-confirm {
+  color: #07c160;
+}
+
+.picker-title {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.picker-body {
+  height: 400rpx;
+}
+
+.picker-view {
+  width: 100%;
+  height: 100%;
+}
+
+.picker-item {
+  line-height: 40px;
+  text-align: center;
+  font-size: 30rpx;
+  color: #333;
+}
+
+/* 动画效果 */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
