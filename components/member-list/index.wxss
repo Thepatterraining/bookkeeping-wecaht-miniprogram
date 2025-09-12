@@ -5,38 +5,68 @@
 /* 加载中、错误、空列表样式 */
 .loading, .error, .empty {
   text-align: center;
-  padding: 40rpx 0;
+  padding: 60rpx 0;
   color: #999;
   font-size: 28rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid rgba(108, 114, 203, 0.2);
+  border-top-color: #6c72cb;
+  border-radius: 50%;
+  margin-bottom: 20rpx;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .error {
   color: #ff4d4f;
 }
 
+.error icon, .empty icon {
+  margin-bottom: 20rpx;
+}
+
 /* 成员列表头部 */
 .member-header {
   margin-bottom: 20rpx;
+  padding: 0 10rpx;
 }
 
 .member-count {
   font-size: 28rpx;
   color: #666;
+  font-weight: 500;
 }
 
 /* 成员列表项 */
 .member-items {
   background-color: #fff;
-  border-radius: 12rpx;
+  border-radius: 16rpx;
   overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(74, 79, 159, 0.08);
 }
 
 .member-item {
   display: flex;
   align-items: center;
   padding: 24rpx 20rpx;
-  border-bottom: 1rpx solid #f0f0f0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
   position: relative;
+  transition: background-color 0.3s;
+}
+
+.member-item:active {
+  background-color: rgba(108, 114, 203, 0.05);
 }
 
 .member-item:last-child {
@@ -50,6 +80,7 @@
   border-radius: 50%;
   margin-right: 20rpx;
   background-color: #f5f5f5;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
 }
 
 /* 成员信息 */
@@ -70,8 +101,8 @@
   padding: 4rpx 12rpx;
   border-radius: 20rpx;
   margin-left: 12rpx;
-  background-color: #f5f5f5;
-  color: #666;
+  background-color: rgba(108, 114, 203, 0.1);
+  color: #6c72cb;
 }
 
 .member-role.owner {
@@ -86,19 +117,66 @@
 
 .member-current {
   font-size: 24rpx;
-  color: #999;
+  color: #6c72cb;
   margin-left: 8rpx;
+  font-weight: 500;
 }
 
 .member-join-time {
   font-size: 24rpx;
   color: #999;
+  display: flex;
+  align-items: center;
+}
+
+.member-join-time::before {
+  content: '';
+  display: inline-block;
+  width: 6rpx;
+  height: 6rpx;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 8rpx;
 }
 
 /* 更多操作按钮 */
 .member-more {
   font-size: 36rpx;
   color: #999;
-  padding: 10rpx;
+  padding: 10rpx 15rpx;
   cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s;
 }
+
+.member-more:active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 添加动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.member-item {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 为不同位置的成员添加不同的动画延迟 */
+.member-item:nth-child(1) { animation-delay: 0.05s; }
+.member-item:nth-child(2) { animation-delay: 0.1s; }
+.member-item:nth-child(3) { animation-delay: 0.15s; }
+.member-item:nth-child(4) { animation-delay: 0.2s; }
+.member-item:nth-child(5) { animation-delay: 0.25s; }
+.member-item:nth-child(6) { animation-delay: 0.3s; }
+.member-item:nth-child(7) { animation-delay: 0.35s; }
+.member-item:nth-child(8) { animation-delay: 0.4s; }
+.member-item:nth-child(9) { animation-delay: 0.45s; }
+.member-item:nth-child(10) { animation-delay: 0.5s; }

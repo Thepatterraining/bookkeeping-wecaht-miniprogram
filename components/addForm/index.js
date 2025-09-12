@@ -230,7 +230,7 @@ Component({
         const payload = {
           categoryNo: bill.categoryNo,
           categoryType: 1,
-          transactionType: bill.type === 'expense' ? 1 : 2,
+          transactionType: bill.type === 'expense' ? 2 : 1,
           transactionDesc: remark || '',
           ledgerNo: ledgerNo,
           amount: bill.amount
@@ -261,9 +261,18 @@ Component({
               })
               if (allOk) {
                 setTimeout(() => {
-                  // 成功后跳转到账单页
-                  const to = `/pages/index/index?ledgerNo=${encodeURIComponent(ledgerNo || '')}`
-                  wx.navigateTo({ url: to })
+                  // 成功后跳转到账单页面（修改为账单列表页面）
+                  // 切换到账单标签页
+                  const pages = getCurrentPages()
+                  const currentPage = pages[pages.length - 1]
+                  if (currentPage && currentPage.route.includes('ledgerDetail')) {
+                    // 如果当前在账本详情页，直接切换标签
+                    currentPage.setData({ tab: 'bill' })
+                  } else {
+                    // 否则跳转到账本详情页的账单标签
+                    const to = `/pages/ledgerDetail/detail?ledgerNo=${encodeURIComponent(ledgerNo || '')}&tab=bill`
+                    wx.navigateTo({ url: to })
+                  }
                 }, 400)
               }
               // 重置表单

@@ -7,7 +7,30 @@
   </view>
   <view class="content">
     <block wx:if="{{tab==='bill'}}">
-      <bill-list ledgerNo="{{ledgerNo}}" />
+      <!-- 加载中提示 -->
+      <view class="loading-container" wx:if="{{loading}}">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">加载中...</text>
+      </view>
+
+      <block wx:else>
+        <!-- 收支总览组件 -->
+        <income-expense-summary
+          income="{{monthSummary.income}}"
+          expense="{{monthSummary.expense}}"
+          bindmonthchange="onMonthChange">
+        </income-expense-summary>
+
+        <!-- 预算组件 -->
+        <budget-card
+          totalBudget="{{monthBudget.total}}"
+          usedAmount="{{monthBudget.used}}"
+          bindsetbudget="onSetBudget">
+        </budget-card>
+
+        <!-- 账单列表 -->
+        <bill-list ledgerNo="{{ledgerNo}}" id="billList" />
+      </block>
     </block>
     <block wx:if="{{tab==='add'}}">
       <add-form ledgerNo="{{ledgerNo}}" />
@@ -52,5 +75,23 @@
         </view>
       </view>
     </block>
+  </view>
+
+  <!-- 设置预算弹窗 -->
+  <view class="budget-modal" wx:if="{{showBudgetModal}}" catchtouchmove="preventTouchMove">
+    <view class="budget-backdrop" bindtap="hideBudgetModal"></view>
+    <view class="budget-modal-content">
+      <view class="budget-modal-header">
+        <text class="budget-modal-title">设置本月预算</text>
+        <text class="budget-modal-close" bindtap="hideBudgetModal">×</text>
+      </view>
+      <view class="budget-modal-body">
+        <view class="budget-form-group">
+          <text class="budget-form-label">预算金额</text>
+          <input class="budget-form-input" type="digit" placeholder="请输入预算金额" value="{{newBudgetAmount}}" bindinput="onBudgetAmountInput" />
+        </view>
+        <button class="budget-submit-btn" bindtap="saveBudget">保存</button>
+      </view>
+    </view>
   </view>
 </view> 

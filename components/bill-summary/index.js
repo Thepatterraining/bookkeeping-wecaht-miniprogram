@@ -33,7 +33,7 @@ Component({
       this.setData({ years });
 
       // 初次加载数据
-      this.fetchSummary();
+      this.useMockData();
     }
   },
 
@@ -41,13 +41,42 @@ Component({
   observers: {
     'ledgerNo': function(next) {
       if (next) {
-        this.fetchSummary(); // ledgerNo 变化时重新拉取
+        this.useMockData(); // ledgerNo 变化时重新拉取
       }
     }
   },
 
   // 组件的方法列表
   methods: {
+    // 使用模拟数据
+    useMockData() {
+      this.setData({ loading: true, error: '' });
+
+      // 模拟网络请求延迟
+      setTimeout(() => {
+        // 模拟数据
+        const income = 1200000; // 12000元
+        const expense = 795000; // 7950元
+        const balance = income - expense; // 4050元
+
+        this.setData({
+          income,
+          expense,
+          balance,
+          loading: false
+        });
+
+        // 触发汇总数据更新事件
+        this.triggerEvent('summaryupdate', {
+          income,
+          expense,
+          balance,
+          year: this.data.currentYear,
+          month: this.data.currentMonth
+        });
+      }, 500);
+    },
+
     // 获取账单汇总数据
     fetchSummary() {
       const { ledgerNo, currentYear, currentMonth } = this.data;
@@ -134,7 +163,7 @@ Component({
     // 确认选择
     confirmPicker() {
       this.hideMonthPicker();
-      this.fetchSummary(); // 重新获取数据
+      this.useMockData(); // 重新获取数据
     }
   }
 })

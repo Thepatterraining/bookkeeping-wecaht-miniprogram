@@ -1,0 +1,147 @@
+.budget-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(74, 79, 159, 0.08);
+}
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.budget-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4a4f9f;
+}
+
+.budget-action {
+  font-size: 24rpx;
+  color: #6c72cb;
+  padding: 4rpx 12rpx;
+  background-color: rgba(108, 114, 203, 0.1);
+  border-radius: 20rpx;
+}
+
+.budget-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 预算图表 */
+.budget-chart {
+  width: 180rpx;
+  height: 180rpx;
+  position: relative;
+}
+
+/* 环形图样式 */
+.donut-chart {
+  width: 180rpx;
+  height: 180rpx;
+  position: relative;
+}
+
+.donut-hole {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  z-index: 3;
+}
+
+.donut-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #f5f7fa;
+  position: relative;
+  overflow: hidden;
+}
+
+.donut-segment {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-style: solid;
+  border-radius: 50%;
+}
+
+.donut-segment-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #f5f7fa;
+  transform-origin: center;
+}
+
+.donut-center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.donut-percent {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #4a4f9f;
+  line-height: 1.2;
+}
+
+.donut-label {
+  font-size: 20rpx;
+  color: #888;
+  margin-top: 4rpx;
+}
+
+/* 预算信息 */
+.budget-info {
+  flex: 1;
+  margin-left: 30rpx;
+}
+
+.amount-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.amount-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.amount-label {
+  font-size: 26rpx;
+  color: #888;
+}
+
+.amount-value {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+}

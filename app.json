@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/ledgerList/index",
+    "pages/categoryManagement/index",
     "pages/createLedger/index",
     "pages/mine/index",
     "pages/ledgerDetail/detail",
@@ -12,12 +13,12 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "记一笔",
+    "navigationBarTitleText": "创建账本",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#666666",
-    "selectedColor": "#07c160",
+    "selectedColor": "#6c72cb",
     "borderStyle": "white",
     "backgroundColor": "#ffffff",
     "list": [
@@ -28,16 +29,16 @@
         "selectedIconPath": "assets/icons/bill-active.png"
       },
       {
-        "pagePath": "pages/createLedger/index",
-        "text": "创建账本",
-        "iconPath": "assets/icons/add.png",
-        "selectedIconPath": "assets/icons/add-active.png"
+        "pagePath": "pages/categoryManagement/index",
+        "text": "我的分类",
+        "iconPath": "assets/icons/category.png",
+        "selectedIconPath": "assets/icons/category-active.png"
       },
       {
         "pagePath": "pages/mine/index",
         "text": "我的",
-        "iconPath": "assets/icons/statistics.png",
-        "selectedIconPath": "assets/icons/statistics-active.png"
+        "iconPath": "assets/icons/my.png",
+        "selectedIconPath": "assets/icons/my-active.png"
       }
     ]
   },

@@ -1,0 +1,77 @@
+<view class="container">
+  <view class="page-title">分类管理</view>
+
+  <!-- 标签切换 -->
+  <view class="tabs">
+    <view class="tab {{activeTab==='expense'?'active':''}}" data-tab="expense" bindtap="switchTab">支出</view>
+    <view class="tab {{activeTab==='income'?'active':''}}" data-tab="income" bindtap="switchTab">收入</view>
+  </view>
+
+  <!-- 分类列表 -->
+  <view class="category-list">
+    <block wx:if="{{activeTab === 'expense'}}">
+      <view class="category-item" wx:for="{{categories.expense}}" wx:key="id">
+        <view class="category-info">
+          <text class="category-icon">{{item.icon}}</text>
+          <text class="category-name">{{item.name}}</text>
+        </view>
+        <view class="category-actions">
+          <text class="action-icon edit" bindtap="editCategory" data-id="{{item.id}}" data-type="expense">✏️</text>
+          <text class="action-icon delete" bindtap="deleteCategory" data-id="{{item.id}}" data-type="expense">🗑️</text>
+        </view>
+      </view>
+    </block>
+
+    <block wx:if="{{activeTab === 'income'}}">
+      <view class="category-item" wx:for="{{categories.income}}" wx:key="id">
+        <view class="category-info">
+          <text class="category-icon">{{item.icon}}</text>
+          <text class="category-name">{{item.name}}</text>
+        </view>
+        <view class="category-actions">
+          <text class="action-icon edit" bindtap="editCategory" data-id="{{item.id}}" data-type="income">✏️</text>
+          <text class="action-icon delete" bindtap="deleteCategory" data-id="{{item.id}}" data-type="income">🗑️</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 添加分类按钮 -->
+  <view class="add-category-btn" bindtap="showAddCategoryModal">
+    <text class="add-icon">+</text>
+    <text>添加分类</text>
+  </view>
+
+  <!-- 添加分类弹窗 -->
+  <view class="modal" wx:if="{{showAddModal}}" catchtouchmove="preventTouchMove">
+    <view class="modal-backdrop" bindtap="hideAddCategoryModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">添加{{activeTab === 'expense' ? '支出' : '收入'}}分类</text>
+        <text class="modal-close" bindtap="hideAddCategoryModal">×</text>
+      </view>
+      <view class="modal-body">
+        <view class="form-group">
+          <text class="form-label">分类名称</text>
+          <input class="form-input" placeholder="请输入分类名称" value="{{newCategory.name}}" bindinput="onCategoryNameInput" />
+        </view>
+
+        <view class="form-group">
+          <text class="form-label">选择图标</text>
+          <view class="icon-grid">
+            <view class="icon-item {{newCategory.icon === icon ? 'selected' : ''}}"
+                  wx:for="{{icons}}"
+                  wx:for-item="icon"
+                  wx:key="*this"
+                  bindtap="selectIcon"
+                  data-icon="{{icon}}">
+              {{icon}}
+            </view>
+          </view>
+        </view>
+
+        <button class="submit-btn" bindtap="addCategory">确认添加</button>
+      </view>
+    </view>
+  </view>
+</view>

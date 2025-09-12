@@ -1,17 +1,26 @@
 <view class="member-list">
   <!-- 加载中 -->
   <block wx:if="{{loading}}">
-    <view class="loading">加载中...</view>
+    <view class="loading">
+      <view class="loading-spinner"></view>
+      <text>加载中...</text>
+    </view>
   </block>
 
   <!-- 错误提示 -->
   <block wx:elif="{{error}}">
-    <view class="error">{{error}}</view>
+    <view class="error">
+      <icon type="warn" size="40" color="#ff4d4f"></icon>
+      <text>{{error}}</text>
+    </view>
   </block>
 
   <!-- 空列表 -->
   <block wx:elif="{{members.length === 0}}">
-    <view class="empty">暂无成员</view>
+    <view class="empty">
+      <icon type="info" size="40" color="#999"></icon>
+      <text>暂无成员</text>
+    </view>
   </block>
 
   <!-- 成员列表 -->

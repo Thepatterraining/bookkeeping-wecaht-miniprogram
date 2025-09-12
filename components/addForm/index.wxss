@@ -1,48 +1,330 @@
-.container { padding: 20rpx; background: #f5f5f5; }
-.type-selector{ display:flex; background:#fff; padding:20rpx; border-radius:10rpx; margin-bottom:20rpx }
-.type{ flex:1; text-align:center; padding:20rpx 0; color:#666; position:relative }
-.type.active{ color:#07c160 }
-.type.active::after{ content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:40rpx; height:4rpx; background:#07c160 }
-.amount-input{ background:#fff; padding:40rpx 20rpx; display:flex; align-items:center; border-radius:10rpx; margin-bottom:20rpx }
-.currency{ font-size:40rpx; color:#333; margin-right:20rpx }
-.amount-input input{ flex:1; font-size:40rpx }
-.form-item{ background:#fff; padding:30rpx 20rpx; display:flex; justify-content:space-between; align-items:center; border-radius:10rpx; margin-bottom:20rpx }
-.label{ color:#333; font-size:28rpx }
+/* 整体容器 */
+.container {
+  padding: 30rpx;
+  padding-bottom: 130rpx; /* 为底部按钮留出空间 */
+  background: #f8fafd;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 类型选择器 */
+.type-selector {
+  display: flex;
+  background: #fff;
+  padding: 4rpx;
+  border-radius: 12rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(108, 114, 203, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.type {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  color: #8a8a9a;
+  font-size: 30rpx;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.type.active {
+  color: #fff;
+  font-weight: 500;
+}
+
+.type.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #6c72cb, #8a6bc1);
+  border-radius: 8rpx;
+  z-index: -1;
+  box-shadow: 0 4rpx 12rpx rgba(108, 114, 203, 0.2);
+}
+
+/* 金额输入区域 */
+.amount-input {
+  background: #fff;
+  padding: 40rpx 30rpx;
+  display: flex;
+  align-items: center;
+  border-radius: 12rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(108, 114, 203, 0.08);
+}
+
+.currency {
+  font-size: 48rpx;
+  color: #4a4f9f;
+  margin-right: 20rpx;
+  font-weight: 500;
+}
+
+.amount-field {
+  flex: 1;
+  font-size: 48rpx;
+  color: #333;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+/* 表单项 */
+.form-item {
+  background: #fff;
+  padding: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(108, 114, 203, 0.08);
+  transition: all 0.3s ease;
+}
+
+.form-item:active {
+  transform: scale(0.99);
+  box-shadow: 0 1rpx 5rpx rgba(108, 114, 203, 0.05);
+}
+
+.label {
+  color: #333;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+/* 选择器样式 */
 .picker-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex: 1;
 }
 
 .picker {
-  color: #333;
-  font-size: 28rpx;
+  color: #4a4f9f;
+  font-size: 30rpx;
+  text-align: right;
 }
 
 .picker-hint {
-  color: #07c160;
+  color: #6c72cb;
   font-size: 24rpx;
   margin-left: 10rpx;
 }
-.submit-btn{ background:#eef2ff; color:#9aa3b2; text-align:center; padding:32rpx 0; border-radius:9999rpx; margin-top:48rpx; font-size:32rpx; font-weight:600; letter-spacing:2rpx; box-shadow:0 6rpx 16rpx rgba(0,0,0,0.06); transition:all .2s ease }
-.submit-btn:active{ transform:scale(0.98) }
-.submit-btn.active{ color:#ffffff; background:linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%); box-shadow:0 10rpx 24rpx rgba(59,130,246,0.35) }
-.submit-btn.disabled{ opacity:0.6; filter:saturate(0.8); pointer-events:none }
-.popup-mask{ position:fixed; left:0; right:0; top:0; bottom:0; background:rgba(0,0,0,0.45); z-index:999 }
-.popup-sheet{ position:fixed; left:0; right:0; bottom:0; background:#fff; border-top-left-radius:24rpx; border-top-right-radius:24rpx; max-height:70vh; overflow:auto; z-index:1000; padding-bottom:40rpx }
-.popup-header{ display:flex; justify-content:center; align-items:center; padding:24rpx 32rpx 8rpx 32rpx; position:relative }
-.popup-title{ font-size:32rpx; font-weight:600; color:#333 }
-.popup-close{ position:absolute; right:32rpx; top:24rpx; font-size:36rpx; color:#999 }
-.popup-search{ padding:12rpx 24rpx 0 24rpx }
-.search-input{ width:100%; background:#f5f5f5; border-radius:12rpx; padding:20rpx 24rpx; font-size:26rpx; color:#333 }
-.popup-type-tabs{ display:flex; padding:12rpx 24rpx 0 24rpx }
-.tab{ flex:1; text-align:center; padding:20rpx 0; color:#666 }
-.tab.active{ color:#07c160; font-weight:600 }
-.popup-section{ padding:8rpx 24rpx 0 24rpx }
-.section-title{ display:block; font-size:26rpx; color:#999; margin:24rpx 0 16rpx 8rpx }
-.popup-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:20rpx 16rpx }
-.popup-grid-item{ display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16rpx 10rpx; border-radius:12rpx; background:#fafafa }
-.popup-grid-item.active{ background:#e8f7ed; color:#07c160 }
-.grid-icon{ width:64rpx; height:64rpx; border-radius:16rpx; background:#f0f0f0; margin-bottom:8rpx }
-.grid-text{ font-size:24rpx; color:#333 } 
+
+/* 按钮组 */
+.button-group {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f8fafd;
+  z-index: 10;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  padding: 20rpx 30rpx;
+  box-sizing: border-box;
+}
+
+/* 提交按钮 */
+.submit-btn {
+  background: linear-gradient(135deg, #6c72cb, #8a6bc1);
+  color: #ffffff;
+  text-align: center;
+  padding: 24rpx 0;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  box-shadow: 0 6rpx 16rpx rgba(108, 114, 203, 0.25);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-btn.disabled {
+  opacity: 0.6;
+  filter: saturate(0.8);
+  pointer-events: none;
+}
+
+.btn-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+/* 弹出层样式 */
+.popup-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  backdrop-filter: blur(4rpx);
+}
+
+.popup-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-top-left-radius: 24rpx;
+  border-top-right-radius: 24rpx;
+  max-height: 75vh;
+  overflow: auto;
+  z-index: 1000;
+  padding-bottom: 50rpx;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.popup-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx;
+  position: relative;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.popup-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #4a4f9f;
+}
+
+.popup-close {
+  position: absolute;
+  right: 30rpx;
+  top: 30rpx;
+  font-size: 40rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.popup-search {
+  padding: 20rpx 30rpx 0;
+}
+
+.search-input {
+  width: 100%;
+  background: #f8fafd;
+  border-radius: 12rpx;
+  padding: 20rpx 30rpx;
+  font-size: 28rpx;
+  color: #333;
+  border: 2rpx solid rgba(108, 114, 203, 0.1);
+}
+
+.popup-type-tabs {
+  display: flex;
+  padding: 20rpx 30rpx 0;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  color: #8a8a9a;
+  font-size: 30rpx;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  color: #6c72cb;
+  font-weight: 600;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #6c72cb;
+  border-radius: 2rpx;
+}
+
+.popup-section {
+  padding: 10rpx 30rpx 0;
+}
+
+.section-title {
+  display: block;
+  font-size: 28rpx;
+  color: #8a8a9a;
+  margin: 30rpx 0 20rpx;
+  font-weight: 500;
+}
+
+.popup-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24rpx 20rpx;
+}
+
+.popup-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 10rpx;
+  border-radius: 12rpx;
+  background: #f8fafd;
+  transition: all 0.3s ease;
+}
+
+.popup-grid-item:active {
+  transform: scale(0.95);
+}
+
+.popup-grid-item.active {
+  background: rgba(108, 114, 203, 0.1);
+  color: #6c72cb;
+}
+
+.grid-icon {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(135deg, #f0f2ff, #e8eaff);
+  margin-bottom: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+.grid-text {
+  font-size: 26rpx;
+  color: #333;
+  margin-top: 6rpx;
+}

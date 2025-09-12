@@ -12,7 +12,13 @@ Page({
     showInviteModal: false, // 控制邀请成员弹窗显示
     currentLedger: null, // 当前选中的账本
     showJoinModal: false, // 控制加入账本弹窗显示
-    joinCode: '' // 加入账本的邀请码
+    joinCode: '', // 加入账本的邀请码
+    monthBudget: {
+      total: 5000, // 默认预算金额
+      used: 2350  // 默认已使用金额
+    },
+    showBudgetModal: false, // 控制预算设置弹窗显示
+    newBudgetAmount: '' // 新预算金额
   },
   onLoad() {
     // 记录当前页面路径，用于登录后跳转回来
@@ -24,6 +30,7 @@ Page({
 
     this.checkLoginStatus();
     this.initAndFetch();
+    this.fetchMonthBudget(); // 获取本月预算
   },
   onPullDownRefresh() {
     this.fetchLedgers();
@@ -91,11 +98,21 @@ Page({
         const resp = res && res.data;
         if (resp && resp.code === 200 && resp.data && Array.isArray(resp.data.list)) {
           const list = (resp.data.list || []).map(function(it){
+            // 处理角色信息
+            let role = it.role || '成员';
+            let roleType = 'member';
+
+            if (role === '创建者' || role === '管理员') {
+              roleType = role === '创建者' ? 'owner' : 'admin';
+            }
+
             return {
               ledgerNo: it.ledgerNo,
               ledgerName: it.ledgerName || '未命名账本',
               ledgerDesc: it.ledgerDesc || '',
-              ledgerImage: it.ledgerImage || ''
+              ledgerImage: it.ledgerImage || '',
+              role: role, // 角色名称
+              roleType: roleType // 角色类型
             };
           });
           that.setData({ ledgers: list }, function(){ that.applyFilter(); });
@@ -186,20 +203,56 @@ Page({
 
   // 显示邀请成员弹窗
   showInviteModal() {
-    // 获取邀请码
+    // 获取当前账本信息
     const { currentLedger } = this.data;
 
-    // 如果没有邀请码，则生成一个
-    if (!currentLedger.inviteCode) {
-      // 这里应该调用后端接口获取邀请码，现在先模拟一个
-      const inviteCode = 'L' + currentLedger.ledgerNo.substring(0, 6);
-      currentLedger.inviteCode = inviteCode;
-      this.setData({ currentLedger });
-    }
+    // 显示加载中
+    wx.showLoading({
+      title: '获取邀请码...',
+      mask: true
+    });
 
-    this.setData({
-      showOptionsModal: false,
-      showInviteModal: true
+    // 调用后端接口获取最新邀请码
+    wx.request({
+      url: 'http://localhost:9002/invitation/getLatestCode',
+      method: 'GET',
+      data: {
+        ledgerNo: currentLedger.ledgerNo
+      },
+      success: (res) => {
+        const data = res.data;
+
+        // 请求成功
+        if (data && data.code === 200 && data.success) {
+          // 更新邀请码
+          currentLedger.inviteCode = data.data;
+          this.setData({ currentLedger });
+
+          // 隐藏更多选项弹窗，显示邀请弹窗
+          this.setData({
+            showOptionsModal: false,
+            showInviteModal: true
+          });
+        } else {
+          // 请求失败，显示错误信息
+          wx.showToast({
+            title: data.message || '获取邀请码失败',
+            icon: 'none'
+          });
+        }
+      },
+      fail: (err) => {
+        // 网络错误
+        wx.showToast({
+          title: '网络错误，请检查服务是否启动',
+          icon: 'none'
+        });
+        console.error('获取邀请码失败:', err);
+      },
+      complete: () => {
+        // 隐藏加载提示
+        wx.hideLoading();
+      }
     });
   },
 
@@ -276,7 +329,7 @@ Page({
       url: 'http://localhost:9002/ledger/join',
       method: 'POST',
       data: {
-        inviteCode: joinCode
+        invitationCode: joinCode
       },
       header: {
         'content-type': 'application/json'
@@ -428,6 +481,87 @@ Page({
     this.setData({
       ledgers: newLedgers,
       filtered: newFiltered
+    });
+  },
+
+  // 跳转到创建账本页面
+  goToCreateLedger() {
+    // 检查登录状态
+    const app = getApp();
+    if (!app.globalData.hasLogin) {
+      this.showLogin();
+      return;
+    }
+
+    // 跳转到创建账本页面
+    wx.navigateTo({
+      url: '/pages/createLedger/index'
+    });
+  },
+
+  // 获取本月预算
+  fetchMonthBudget() {
+    // 这里应该调用后端接口获取本月预算数据
+    // 现在使用模拟数据
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
+
+    // 模拟API调用
+    setTimeout(() => {
+      // 模拟数据，实际应从服务器获取
+      this.setData({
+        monthBudget: {
+          total: 5000,
+          used: 2350
+        }
+      });
+    }, 500);
+  },
+
+  // 显示设置预算弹窗
+  onSetBudget() {
+    this.setData({
+      showBudgetModal: true,
+      newBudgetAmount: String(this.data.monthBudget.total)
+    });
+  },
+
+  // 隐藏预算弹窗
+  hideBudgetModal() {
+    this.setData({
+      showBudgetModal: false
+    });
+  },
+
+  // 监听预算金额输入
+  onBudgetAmountInput(e) {
+    this.setData({
+      newBudgetAmount: e.detail.value
+    });
+  },
+
+  // 保存预算设置
+  saveBudget() {
+    const amount = parseFloat(this.data.newBudgetAmount);
+
+    if (isNaN(amount) || amount <= 0) {
+      wx.showToast({
+        title: '请输入有效金额',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 这里应该调用后端接口保存预算设置
+    // 现在使用模拟数据
+    this.setData({
+      'monthBudget.total': amount,
+      showBudgetModal: false
+    });
+
+    wx.showToast({
+      title: '预算设置成功',
+      icon: 'success'
     });
   }
 }) 

@@ -1,6 +1,9 @@
 {
   "usingComponents": {
     "add-form": "/components/addForm/index",
-    "bill-list": "/components/bill-list/index"
-  }
+    "bill-list": "/components/bill-list/index",
+    "budget-card": "/components/budget-card/index",
+    "income-expense-summary": "/components/income-expense-summary/index"
+  },
+  "navigationBarTitleText": "账本详情"
 }

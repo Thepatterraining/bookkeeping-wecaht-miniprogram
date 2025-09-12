@@ -1,0 +1,243 @@
+.container {
+  padding: 24rpx;
+  position: relative;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 38rpx;
+  font-weight: 600;
+  margin-bottom: 30rpx;
+  text-align: center;
+  color: #4a4f9f;
+  letter-spacing: 2rpx;
+}
+
+/* 标签切换 */
+.tabs {
+  display: flex;
+  margin-bottom: 30rpx;
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 6rpx;
+  box-shadow: 0 2rpx 10rpx rgba(74, 79, 159, 0.08);
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  color: #4a4f9f;
+  font-weight: 500;
+}
+
+.tab.active:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #6c72cb;
+  border-radius: 2rpx;
+}
+
+/* 分类列表 */
+.category-list {
+  margin-bottom: 30rpx;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(74, 79, 159, 0.05);
+}
+
+.category-info {
+  display: flex;
+  align-items: center;
+}
+
+.category-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.category-name {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.category-actions {
+  display: flex;
+}
+
+.action-icon {
+  font-size: 32rpx;
+  padding: 10rpx;
+  margin-left: 10rpx;
+}
+
+.action-icon.edit {
+  color: #6c72cb;
+}
+
+.action-icon.delete {
+  color: #e26d89;
+}
+
+/* 添加分类按钮 */
+.add-category-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6c72cb, #8a6bc1);
+  color: #fff;
+  width: 100%;
+  height: 90rpx;
+  border-radius: 16rpx;
+  margin: 30rpx 0;
+  font-size: 32rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(108, 114, 203, 0.25);
+  transition: all 0.3s ease;
+}
+
+.add-category-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2rpx 8rpx rgba(108, 114, 203, 0.2);
+}
+
+.add-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+/* 弹窗样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  background-color: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 30rpx rgba(74, 79, 159, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #4a4f9f;
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.modal-body {
+  padding: 30rpx;
+}
+
+.form-group {
+  margin-bottom: 24rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  background-color: #f5f7fa;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #333;
+  border: 2rpx solid rgba(108, 114, 203, 0.2);
+}
+
+/* 图标网格 */
+.icon-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10rpx;
+}
+
+.icon-item {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  background-color: #f5f7fa;
+  border-radius: 12rpx;
+  margin: 10rpx;
+  transition: all 0.3s ease;
+}
+
+.icon-item.selected {
+  background-color: rgba(108, 114, 203, 0.1);
+  border: 2rpx solid #6c72cb;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(135deg, #6c72cb, #8a6bc1);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  border-radius: 44rpx;
+  margin-top: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(108, 114, 203, 0.25);
+  border: none;
+}

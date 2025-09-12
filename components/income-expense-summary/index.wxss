@@ -1,55 +1,45 @@
-.bill-summary {
-  background-color: #fff;
+.summary-card {
+  background: linear-gradient(135deg, #6c72cb, #8a6bc1);
   border-radius: 16rpx;
+  padding: 24rpx;
   margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(74, 79, 159, 0.08);
+  box-shadow: 0 4rpx 16rpx rgba(108, 114, 203, 0.25);
+  color: #fff;
   overflow: hidden;
-}
-
-/* 加载中、错误提示样式 */
-.loading, .error {
-  text-align: center;
-  padding: 30rpx 0;
-  color: #999;
-  font-size: 28rpx;
-}
-
-.error {
-  color: #e26d89;
+  position: relative;
 }
 
 /* 汇总头部 */
 .summary-header {
-  padding: 20rpx;
-  border-bottom: 1rpx solid #f0f0f0;
   display: flex;
   justify-content: center;
+  margin-bottom: 20rpx;
 }
 
 .month-selector {
   display: flex;
   align-items: center;
-  padding: 8rpx 20rpx;
-  background-color: rgba(108, 114, 203, 0.1);
+  padding: 6rpx 16rpx;
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 30rpx;
   cursor: pointer;
 }
 
 .month-text {
   font-size: 28rpx;
-  color: #4a4f9f;
+  color: #fff;
   margin-right: 8rpx;
 }
 
 .month-arrow {
   font-size: 20rpx;
-  color: #6c72cb;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* 汇总内容 */
 .summary-content {
   display: flex;
-  padding: 30rpx 20rpx;
+  justify-content: space-between;
 }
 
 .summary-item {
@@ -65,34 +55,34 @@
   top: 20%;
   bottom: 20%;
   width: 1rpx;
-  background-color: #f0f0f0;
-}
-
-.item-label {
-  font-size: 26rpx;
-  color: #888;
-  margin-bottom: 12rpx;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .item-value {
   font-size: 36rpx;
   font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.item-label {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .income {
-  color: #07c160;
+  color: #fff;
 }
 
 .expense {
-  color: #e26d89;
+  color: #fff;
 }
 
 .balance.positive {
-  color: #07c160;
+  color: #fff;
 }
 
 .balance.negative {
-  color: #e26d89;
+  color: #fff;
 }
 
 /* 月份选择器 */

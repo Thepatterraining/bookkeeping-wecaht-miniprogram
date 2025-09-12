@@ -7,7 +7,7 @@
 
     <view class="login-content">
       <view class="login-icon">
-        <image src="/assets/icons/statistics-active.png" mode="aspectFit"></image>
+        <image class="login-icon-image" src="/assets/icons/statistics-active.png" mode="aspectFit"></image>
       </view>
 
       <!-- 登录方式切换 -->
@@ -20,10 +20,10 @@
       <!-- 手机号验证码登录 -->
       <view class="login-form" wx:if="{{loginType === 'phone'}}">
         <view class="form-item">
-          <input class="input" type="number" placeholder="请输入手机号" bindinput="onPhoneInput" value="{{phone}}" maxlength="11" />
+          <input class="login-input" type="number" placeholder="请输入手机号" bindinput="onPhoneInput" value="{{phone}}" maxlength="11" />
         </view>
         <view class="form-item code-item">
-          <input class="input code-input" type="number" placeholder="请输入验证码" bindinput="onCodeInput" value="{{verifyCode}}" maxlength="6" />
+          <input class="login-input code-input" type="number" placeholder="请输入验证码" bindinput="onCodeInput" value="{{verifyCode}}" maxlength="6" />
           <button class="code-btn" bindtap="sendVerifyCode" disabled="{{codeSending || countDown > 0}}">
             {{countDown > 0 ? countDown + 's' : '获取验证码'}}
           </button>
@@ -36,10 +36,10 @@
       <!-- 账号密码登录 -->
       <view class="login-form" wx:if="{{loginType === 'account'}}">
         <view class="form-item">
-          <input class="input" type="text" placeholder="请输入用户名/手机号" bindinput="onUsernameInput" value="{{username}}" />
+          <input class="login-input" type="text" placeholder="请输入用户名/手机号" bindinput="onUsernameInput" value="{{username}}" />
         </view>
         <view class="form-item">
-          <input class="input" password="true" placeholder="请输入密码" bindinput="onPasswordInput" value="{{password}}" />
+          <input class="login-input" password="true" placeholder="请输入密码" bindinput="onPasswordInput" value="{{password}}" />
         </view>
         <button class="login-button" type="primary" bindtap="accountLogin" loading="{{loading}}" disabled="{{loading || !username || !password}}">
           登录

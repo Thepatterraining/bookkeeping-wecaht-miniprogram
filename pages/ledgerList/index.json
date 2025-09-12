@@ -1,7 +1,8 @@
 {
-  "navigationBarTitleText": "我的账本",
+  "navigationBarTitleText": "yong 记账",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "login": "/components/login/index"
+    "login": "/components/login/index",
+    "budget-card": "/components/budget-card/index"
   }
 }

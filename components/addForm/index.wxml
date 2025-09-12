@@ -6,7 +6,7 @@
 
   <view class="amount-input">
     <text class="currency">¥</text>
-    <input type="digit" value="{{amount}}" placeholder="请输入金额" bindinput="onAmountInput" />
+    <input class="amount-field" type="digit" value="{{amount}}" placeholder="请输入金额" bindinput="onAmountInput" />
   </view>
 
   <view class="form-item" bindtap="openCategoryPopup">
@@ -21,7 +21,7 @@
 
   <view class="form-item">
     <text class="label">循环记账</text>
-    <switch checked="{{isRecurring}}" bindchange="toggleRecurring" color="#07c160" />
+    <switch checked="{{isRecurring}}" bindchange="toggleRecurring" color="#6c72cb" />
   </view>
 
   <view class="form-item" wx:if="{{isRecurring}}">
@@ -36,8 +36,11 @@
     <input type="text" value="{{remark}}" placeholder="添加备注" bindinput="onRemarkInput" />
   </view>
 
-  <view class="submit-btn {{isFormValid ? 'active' : ''}} {{submitting ? 'disabled' : ''}}" bindtap="submitBill">
-    保存
+  <view class="button-group">
+    <view class="submit-btn {{isFormValid ? 'active' : ''}} {{submitting ? 'disabled' : ''}}" bindtap="submitBill">
+      <text class="btn-icon">✓</text>
+      <text>保存</text>
+    </view>
   </view>
 
   <category-selector

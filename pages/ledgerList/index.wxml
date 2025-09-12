@@ -1,10 +1,15 @@
 <view class="container">
-  <view class="page-title">神象云账本</view>
-
   <view class="search-bar">
     <text class="icon">🔍</text>
     <input class="search-input" placeholder="搜索我的账本" value="{{searchQuery}}" bindinput="onSearch" />
   </view>
+
+  <!-- 本月预算卡片 -->
+  <budget-card
+    totalBudget="{{monthBudget.total}}"
+    usedAmount="{{monthBudget.used}}"
+    bindsetbudget="onSetBudget">
+  </budget-card>
 
   <view class="tabs">
     <view class="tab {{activeTab==='all'?'active':''}}" data-tab="all" bindtap="switchTab">全部</view>
@@ -19,7 +24,7 @@
         <view class="info">
           <view class="row">
             <text class="name">{{item.ledgerName || '未命名账本'}}</text>
-            <text class="tag">{{item.isOwner ? '我创建' : '我参与'}}</text>
+            <text class="tag {{item.roleType}}-tag">{{item.role}}</text>
           </view>
           <view class="meta">{{item.ledgerDesc || '暂无描述'}}</view>
         </view>
@@ -37,15 +42,17 @@
     </view>
   </block>
 
+  <!-- 创建账本按钮 -->
+  <view class="create-ledger-btn" bindtap="goToCreateLedger">
+    <text class="create-icon">📝</text>
+    <text>创建新账本</text>
+  </view>
+
   <view class="action-buttons">
     <view class="create-btn" bindtap="showJoinModal">
       <text class="plus">🔗</text>
       <text>加入账本</text>
     </view>
-    <navigator class="create-btn create-new-btn" url="/pages/createLedger/index">
-      <text class="plus">＋</text>
-      <text>创建账本</text>
-    </navigator>
   </view>
 
   <!-- 登录组件 -->
@@ -66,7 +73,7 @@
         <text class="option-text">邀请成员</text>
       </view>
       <!-- 只有创建者可以删除账本 -->
-      <view class="option-item delete-option" bindtap="showDeleteConfirm" wx:if="{{currentLedger.isOwner}}">
+      <view class="option-item delete-option" bindtap="showDeleteConfirm" wx:if="{{currentLedger.role == '管理员'}}">
         <text class="option-icon">🗑️</text>
         <text class="option-text">删除账本</text>
       </view>
@@ -83,7 +90,7 @@
     <view class="invite-content">
       <view class="invite-title">邀请成员</view>
       <view class="invite-desc">分享以下邀请码给好友加入账本</view>
-      <view class="invite-code">{{currentLedger.inviteCode || 'ABC123'}}</view>
+      <view class="invite-code">{{currentLedger.inviteCode}}</view>
       <button class="copy-btn" bindtap="copyInviteCode">复制邀请码</button>
       <view class="close-btn" bindtap="hideInviteModal">关闭</view>
     </view>
@@ -98,6 +105,24 @@
       <input class="join-input" placeholder="请输入邀请码" value="{{joinCode}}" bindinput="onJoinCodeInput" />
       <button class="join-btn" bindtap="joinLedger">加入</button>
       <view class="close-btn" bindtap="hideJoinModal">取消</view>
+    </view>
+  </view>
+
+  <!-- 设置预算弹窗 -->
+  <view class="budget-modal" wx:if="{{showBudgetModal}}" catchtouchmove="preventTouchMove">
+    <view class="budget-backdrop" bindtap="hideBudgetModal"></view>
+    <view class="budget-modal-content">
+      <view class="budget-modal-header">
+        <text class="budget-modal-title">设置本月预算</text>
+        <text class="budget-modal-close" bindtap="hideBudgetModal">×</text>
+      </view>
+      <view class="budget-modal-body">
+        <view class="budget-form-group">
+          <text class="budget-form-label">预算金额</text>
+          <input class="budget-form-input" type="digit" placeholder="请输入预算金额" value="{{newBudgetAmount}}" bindinput="onBudgetAmountInput" />
+        </view>
+        <button class="budget-submit-btn" bindtap="saveBudget">保存</button>
+      </view>
     </view>
   </view>
 </view> 

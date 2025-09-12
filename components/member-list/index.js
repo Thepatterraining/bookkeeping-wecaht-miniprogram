@@ -50,21 +50,22 @@ Component({
 
       this.setData({ loading: true, error: '' });
 
+      // 使用新的接口地址
       wx.request({
-        url: 'http://localhost:9002/ledger/members',
+        url: 'http://localhost:9002/ledger/memberList',
         method: 'GET',
         data: { ledgerNo },
         header: { 'content-type': 'application/json' },
         success: (res) => {
           const d = res && res.data;
-          if (d && d.code === 200 && d.data && Array.isArray(d.data.list)) {
-            // 处理成员列表数据
-            const list = (d.data.list || []).map(it => ({
+          if (d && d.code === 200 && d.data && Array.isArray(d.data)) {
+            // 处理成员列表数据，适配新的数据格式
+            const list = (d.data || []).map(it => ({
               userNo: it.userNo,
-              userName: it.userName || '未命名用户',
-              userAvatar: it.userAvatar || '',
-              role: this.formatRole(it.role || 'member'),
-              roleType: it.role || 'member',
+              userName: it.username || '未命名用户',
+              userAvatar: it.avatar || '',
+              role: it.role || '成员',
+              roleType: this.getRoleType(it.role || '成员'),
               joinTime: it.joinTime || ''
             }));
 
@@ -83,14 +84,14 @@ Component({
       });
     },
 
-    // 格式化角色名称
-    formatRole(role) {
-      const roleMap = {
-        'owner': '创建者',
-        'admin': '管理员',
-        'member': '成员'
+    // 根据角色名称获取角色类型
+    getRoleType(roleName) {
+      const roleTypeMap = {
+        '创建者': 'owner',
+        '管理员': 'admin',
+        '成员': 'member'
       };
-      return roleMap[role] || '成员';
+      return roleTypeMap[roleName] || 'member';
     },
 
     // 点击成员

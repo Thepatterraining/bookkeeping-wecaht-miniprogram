@@ -1,5 +1,4 @@
 <view class="container">
-  <view class="header">创建账本</view>
 
   <view class="form-item cover-item">
     <text class="label">封面图</text>
@@ -20,9 +19,17 @@
     <text class="label">名称</text>
     <input value="{{name}}" placeholder="请输入账本名称" bindinput="onName" />
   </view>
+
   <view class="form-item">
     <text class="label">描述</text>
     <input value="{{desc}}" placeholder="可选，简要说明" bindinput="onDesc" />
   </view>
-  <view class="submit-btn {{name ? 'active' : ''}}" bindtap="create">创建</view>
+
+  <view class="submit-btn {{name ? 'active' : ''}}" bindtap="create">
+    <text>创建账本</text>
+  </view>
+
+  <view class="tips">
+    <text class="tips-text">创建后可邀请好友一起记账</text>
+  </view>
 </view> 

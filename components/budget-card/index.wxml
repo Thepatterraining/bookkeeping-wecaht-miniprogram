@@ -1,0 +1,42 @@
+<view class="budget-card">
+  <view class="budget-header">
+    <view class="budget-title">{{currentMonth}}预算</view>
+    <view class="budget-action" bindtap="onSetBudget">设置</view>
+  </view>
+
+  <view class="budget-content">
+    <!-- 左侧：预算图表 -->
+    <view class="budget-chart">
+      <!-- 环形图表示预算使用情况 -->
+      <view class="donut-chart">
+        <view class="donut-hole"></view>
+        <view class="donut-ring">
+          <view class="donut-segment" style="transform: rotate(0deg); border-color: {{progressColor}}; border-width: 12rpx; clip: rect(0, 160rpx, 160rpx, 80rpx);"></view>
+          <view class="donut-segment" style="transform: rotate(180deg); border-color: {{progressColor}}; border-width: 12rpx; clip: rect(0, 80rpx, 160rpx, 0); opacity: {{usagePercentage >= 50 ? 1 : 0}};"></view>
+          <view class="donut-segment-overlay" style="transform: rotate({{3.6 * usagePercentage}}deg); opacity: {{usagePercentage <= 50 ? 1 : 0}};"></view>
+          <view class="donut-segment-overlay" style="transform: rotate({{3.6 * usagePercentage}}deg); opacity: {{usagePercentage > 50 ? 1 : 0}};"></view>
+        </view>
+        <view class="donut-center">
+          <text class="donut-percent">{{usagePercentage}}%</text>
+          <text class="donut-label">已使用</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 右侧：预算金额信息 -->
+    <view class="budget-info">
+      <view class="amount-item">
+        <text class="amount-label">总预算</text>
+        <text class="amount-value">¥{{totalBudget}}</text>
+      </view>
+      <view class="amount-item">
+        <text class="amount-label">已使用</text>
+        <text class="amount-value">¥{{usedAmount}}</text>
+      </view>
+      <view class="amount-item">
+        <text class="amount-label">可用</text>
+        <text class="amount-value">¥{{availableAmount}}</text>
+      </view>
+    </view>
+  </view>
+</view>
