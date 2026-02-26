@@ -66,7 +66,33 @@ Component({
 
     // 输入预算金额
     onAmountInput(e) {
-      this.setData({ budgetAmount: e.detail.value });
+      let value = e.detail.value;
+
+      // 只保留数字，移除所有非数字字符
+      value = value.replace(/\D/g, '');
+
+      // 移除前导零
+      value = value.replace(/^0+/, '');
+
+      // 如果清空了，允许为空字符串
+      if (value === '') {
+        this.setData({ budgetAmount: '' });
+        return;
+      }
+
+      // 转换为数字验证范围
+      const numValue = parseInt(value, 10);
+
+      // 限制最大值为9999999（小于10000000）
+      if (numValue > 9999999) {
+        value = '9999999';
+        wx.showToast({
+          title: '预算金额不能超过9999999',
+          icon: 'none'
+        });
+      }
+
+      this.setData({ budgetAmount: value });
     },
 
     // 打开日期选择器
@@ -116,9 +142,15 @@ Component({
       }
 
       // 验证金额格式
-      const amount = parseFloat(budgetAmount);
+      const amount = parseInt(budgetAmount, 10);
       if (isNaN(amount) || amount <= 0) {
         wx.showToast({ title: '请输入有效的预算金额', icon: 'none' });
+        return;
+      }
+
+      // 验证金额上限（小于10000000）
+      if (amount >= 10000000) {
+        wx.showToast({ title: '预算金额不能超过9999999', icon: 'none' });
         return;
       }
 

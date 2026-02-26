@@ -14,10 +14,12 @@ Page({
   onDesc(e){ this.setData({ desc: e.detail.value }) },
 
   onShow(){
-    // 获取全局登录状态
+    // 每次页面显示时，都重新获取登录状态
     const app = getApp();
+    const userInfo = app.globalData.userInfo;
+
     this.setData({
-      userInfo: app.globalData.userInfo
+      userInfo: userInfo
     });
   },
 
@@ -199,13 +201,13 @@ Page({
             icon: 'success'
           });
 
-          // 获取返回的账本编号
-          const ledgerNo = data.data?.ledgerNo || String(Date.now());
-
-          // 跳转到账本详情页
-          wx.navigateTo({
-            url: `/pages/ledgerDetail/detail?ledgerNo=${ledgerNo}`
-          });
+          // 延迟跳转，让用户看到成功提示
+          setTimeout(() => {
+            // 跳转到账本列表页面（返回上一级，即账本列表tabBar页面）
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 1500);
         } else {
           // 请求失败，显示错误信息
           wx.showToast({

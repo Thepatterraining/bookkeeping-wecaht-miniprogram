@@ -1,25 +1,25 @@
 <view wx:if="{{show}}">
-  <view class="popup-mask" bindtap="onClose"></view>
+  <!-- 点击蒙层关闭选择器 -->
+  <view class="popup-mask" bindtap="maskClose"></view>
   <view class="popup-sheet">
     <view class="popup-header">
       <text class="popup-title">选择分类</text>
-      <text class="popup-close" bindtap="onClose">✕</text>
+      <!-- 点击关闭按钮关闭选择器 -->
+      <text class="popup-close" bindtap="maskClose">✕</text>
     </view>
 
     <view class="popup-search">
       <input class="search-input" placeholder="搜索分类" value="{{searchQuery}}" bindinput="onSearchInput" />
     </view>
 
-    <view class="popup-type-tabs">
-      <view class="tab {{type === 'expense' ? 'active' : ''}}" bindtap="onSetType" data-type="expense">支出</view>
-      <view class="tab {{type === 'income' ? 'active' : ''}}" bindtap="onSetType" data-type="income">收入</view>
-    </view>
+    <!-- 不显示类型切换标签，根据 defaultType 只显示对应类型的分类 -->
 
     <block wx:if="{{recentCategories && recentCategories.length}}">
       <view class="popup-section">
         <text class="section-title">最近使用</text>
         <view class="popup-grid">
-          <view class="popup-grid-item" wx:for="{{recentCategories}}" wx:key="no" bindtap="onPickCategory" data-category="{{item.name}}" data-no="{{item.no}}">
+          <!-- 最近使用的分类，传递 categoryType 字段 -->
+          <view class="popup-grid-item" wx:for="{{recentCategories}}" wx:key="no" bindtap="onPickCategory" data-category="{{item.name}}" data-no="{{item.no}}" data-type="{{item.categoryType}}">
             <view class="grid-icon"></view>
             <text class="grid-text">{{item.name}}</text>
           </view>
@@ -32,13 +32,15 @@
         <view class="popup-section">
           <text class="section-title">{{item.categoryName}}</text>
           <view class="popup-grid">
+            <!-- 支出分类，type 字段值为 1 -->
             <view class="popup-grid-item {{selectedCategory === subItem.categoryName ? 'active' : ''}}"
                   wx:for="{{item.subCategoryList && item.subCategoryList.length > 0 ? item.subCategoryList : [item]}}"
                   wx:for-item="subItem"
                   wx:key="categoryNo"
                   bindtap="onPickCategory"
                   data-category="{{subItem.categoryName}}"
-                  data-no="{{subItem.categoryNo}}">
+                  data-no="{{subItem.categoryNo}}"
+                  data-type="{{subItem.type || 1}}">
               <view class="grid-icon"></view>
               <text class="grid-text">{{subItem.categoryName}}</text>
             </view>
@@ -48,17 +50,26 @@
     </block>
 
     <block wx:if="{{type === 'income'}}">
-      <view class="popup-section">
-        <text class="section-title">全部收入</text>
-        <view class="popup-grid">
-          <view class="popup-grid-item {{selectedCategory === item.categoryName ? 'active' : ''}}"
-                wx:for="{{filteredIncome.length ? filteredIncome : categories.income}}" wx:key="categoryNo"
-                bindtap="onPickCategory" data-category="{{item.categoryName}}" data-no="{{item.categoryNo}}">
-            <view class="grid-icon"></view>
-            <text class="grid-text">{{item.categoryName}}</text>
+      <!-- 收入分类采用与支出分类一致的一级和二级结构 -->
+      <block wx:for="{{filteredIncome.length ? filteredIncome : categories.income}}" wx:key="categoryNo">
+        <view class="popup-section">
+          <text class="section-title">{{item.categoryName}}</text>
+          <view class="popup-grid">
+            <!-- 收入分类，type 字段值为 2 -->
+            <view class="popup-grid-item {{selectedCategory === subItem.categoryName ? 'active' : ''}}"
+                  wx:for="{{item.subCategoryList && item.subCategoryList.length > 0 ? item.subCategoryList : [item]}}"
+                  wx:for-item="subItem"
+                  wx:key="categoryNo"
+                  bindtap="onPickCategory"
+                  data-category="{{subItem.categoryName}}"
+                  data-no="{{subItem.categoryNo}}"
+                  data-type="{{subItem.type || 2}}">
+              <view class="grid-icon"></view>
+              <text class="grid-text">{{subItem.categoryName}}</text>
+            </view>
           </view>
         </view>
-      </view>
+      </block>
     </block>
 
   </view>

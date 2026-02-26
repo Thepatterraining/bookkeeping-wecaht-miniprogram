@@ -1,6 +1,4 @@
 <view class="container">
-  <view class="page-title">分类管理</view>
-
   <!-- 标签切换 -->
   <view class="tabs">
     <view class="tab {{activeTab==='expense'?'active':''}}" data-tab="expense" bindtap="switchTab">支出</view>
@@ -9,45 +7,132 @@
 
   <!-- 分类列表 -->
   <view class="category-list">
+    <!-- 支出分类列表 -->
     <block wx:if="{{activeTab === 'expense'}}">
-      <view class="category-item" wx:for="{{categories.expense}}" wx:key="id">
-        <view class="category-info">
-          <text class="category-icon">{{item.icon}}</text>
-          <text class="category-name">{{item.name}}</text>
+      <!-- 空状态提示 -->
+      <view wx:if="{{categories.expense.length === 0}}" class="empty-state">
+        <!-- 提示文字 -->
+        <text>暂无支出分类，点击下方按钮添加</text>
+      </view>
+      <!-- 遍历支出分类 -->
+      <view wx:for="{{categories.expense}}" wx:key="id">
+        <!-- 一级分类 -->
+        <view wx:if="{{item.isParent}}" class="category-parent-item" bindtap="toggleCategoryExpand" data-category-no="{{item.categoryNo}}">
+          <!-- 分类信息 -->
+          <view class="category-info">
+            <!-- 展开/收起箭头（向下表示展开，向右表示收起） -->
+            <text class="expand-icon {{item.isExpanded ? 'expanded' : ''}}">▼</text>
+            <!-- 分类图标 -->
+            <text class="category-icon">{{item.icon}}</text>
+            <!-- 分类名称 -->
+            <text class="category-name">{{item.name}}</text>
+          </view>
+          <!-- 分类操作按钮 -->
+          <view class="category-actions" catchtap="{{true}}">
+            <!-- 添加子分类按钮，使用categoryNo作为parentNo -->
+            <text class="action-icon add" bindtap="showAddCategoryModal" data-parent-no="{{item.categoryNo}}" data-is-sub="true">➕</text>
+            <!-- 编辑按钮，使用item.type动态传递类型 -->
+            <text class="action-icon edit" bindtap="editCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">✏️</text>
+            <!-- 删除按钮，使用item.type动态传递类型 -->
+            <text class="action-icon delete" bindtap="deleteCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">🗑️</text>
+          </view>
         </view>
-        <view class="category-actions">
-          <text class="action-icon edit" bindtap="editCategory" data-id="{{item.id}}" data-type="expense">✏️</text>
-          <text class="action-icon delete" bindtap="deleteCategory" data-id="{{item.id}}" data-type="expense">🗑️</text>
+        <!-- 二级分类（只有当该二级分类的父分类展开时才显示） -->
+        <view wx:if="{{!item.isParent && item.parentExpanded}}" 
+              class="category-sub-item">
+          <!-- 分类信息 -->
+          <view class="category-info">
+            <!-- 二级分类缩进 -->
+            <view class="sub-category-indent"></view>
+            <!-- 分类图标 -->
+            <text class="category-icon">{{item.icon}}</text>
+            <!-- 分类名称 -->
+            <text class="category-name">{{item.name}}</text>
+          </view>
+          <!-- 分类操作按钮 -->
+          <view class="category-actions">
+            <!-- 编辑按钮 -->
+            <text class="action-icon edit" bindtap="editCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">✏️</text>
+            <!-- 删除按钮，使用item.type传递类型参数（expense或income），使用categoryNo -->
+            <text class="action-icon delete" bindtap="deleteCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">🗑️</text>
+          </view>
         </view>
       </view>
     </block>
 
+    <!-- 收入分类列表 -->
     <block wx:if="{{activeTab === 'income'}}">
-      <view class="category-item" wx:for="{{categories.income}}" wx:key="id">
-        <view class="category-info">
-          <text class="category-icon">{{item.icon}}</text>
-          <text class="category-name">{{item.name}}</text>
+      <!-- 空状态提示 -->
+      <view wx:if="{{categories.income.length === 0}}" class="empty-state">
+        <!-- 提示文字 -->
+        <text>暂无收入分类，点击下方按钮添加</text>
+      </view>
+      <!-- 遍历收入分类 -->
+      <view wx:for="{{categories.income}}" wx:key="id">
+        <!-- 一级分类 -->
+        <view wx:if="{{item.isParent}}" class="category-parent-item" bindtap="toggleCategoryExpand" data-category-no="{{item.categoryNo}}">
+          <!-- 分类信息 -->
+          <view class="category-info">
+            <!-- 展开/收起箭头（向下表示展开，向右表示收起） -->
+            <text class="expand-icon {{item.isExpanded ? 'expanded' : ''}}">▼</text>
+            <!-- 分类图标 -->
+            <text class="category-icon">{{item.icon}}</text>
+            <!-- 分类名称 -->
+            <text class="category-name">{{item.name}}</text>
+          </view>
+          <!-- 分类操作按钮 -->
+          <view class="category-actions" catchtap="{{true}}">
+            <!-- 添加子分类按钮，使用categoryNo作为parentNo -->
+            <text class="action-icon add" bindtap="showAddCategoryModal" data-parent-no="{{item.categoryNo}}" data-is-sub="true">➕</text>
+            <!-- 编辑按钮，使用item.type动态传递类型 -->
+            <text class="action-icon edit" bindtap="editCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">✏️</text>
+            <!-- 删除按钮，使用item.type动态传递类型 -->
+            <text class="action-icon delete" bindtap="deleteCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">🗑️</text>
+          </view>
         </view>
-        <view class="category-actions">
-          <text class="action-icon edit" bindtap="editCategory" data-id="{{item.id}}" data-type="income">✏️</text>
-          <text class="action-icon delete" bindtap="deleteCategory" data-id="{{item.id}}" data-type="income">🗑️</text>
+        <!-- 二级分类（只有当该二级分类的父分类展开时才显示） -->
+        <view wx:if="{{!item.isParent && item.parentExpanded}}" 
+              class="category-sub-item">
+          <!-- 分类信息 -->
+          <view class="category-info">
+            <!-- 二级分类缩进 -->
+            <view class="sub-category-indent"></view>
+            <!-- 分类图标 -->
+            <text class="category-icon">{{item.icon}}</text>
+            <!-- 分类名称 -->
+            <text class="category-name">{{item.name}}</text>
+          </view>
+          <!-- 分类操作按钮 -->
+          <view class="category-actions">
+            <!-- 编辑按钮 -->
+            <text class="action-icon edit" bindtap="editCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">✏️</text>
+            <!-- 删除按钮，使用item.type传递类型参数（expense或income），使用categoryNo -->
+            <text class="action-icon delete" bindtap="deleteCategory" data-category-no="{{item.categoryNo}}" data-type="{{item.type}}">🗑️</text>
+          </view>
         </view>
       </view>
     </block>
   </view>
 
-  <!-- 添加分类按钮 -->
-  <view class="add-category-btn" bindtap="showAddCategoryModal">
+  <!-- 添加一级分类按钮 -->
+  <view class="add-category-btn" bindtap="showAddCategoryModal" data-is-sub="false">
+    <!-- 加号图标 -->
     <text class="add-icon">+</text>
-    <text>添加分类</text>
+    <!-- 按钮文字 -->
+    <text>添加{{activeTab === 'expense' ? '支出' : '收入'}}一级分类</text>
   </view>
 
   <!-- 添加分类弹窗 -->
   <view class="modal" wx:if="{{showAddModal}}" catchtouchmove="preventTouchMove">
+    <!-- 蒙层背景，点击关闭弹窗 -->
     <view class="modal-backdrop" bindtap="hideAddCategoryModal"></view>
+    <!-- 弹窗内容 -->
     <view class="modal-content">
+      <!-- 弹窗头部 -->
       <view class="modal-header">
-        <text class="modal-title">添加{{activeTab === 'expense' ? '支出' : '收入'}}分类</text>
+        <!-- 弹窗标题：显示是添加一级还是二级分类 -->
+        <text class="modal-title">添加{{activeTab === 'expense' ? '支出' : '收入'}}{{newCategory.isParent ? '一级' : '二级'}}分类</text>
+        <!-- 关闭按钮 -->
         <text class="modal-close" bindtap="hideAddCategoryModal">×</text>
       </view>
       <view class="modal-body">

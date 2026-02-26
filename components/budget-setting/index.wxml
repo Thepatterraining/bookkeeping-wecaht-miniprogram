@@ -30,7 +30,7 @@
           <text class="currency">¥</text>
           <input
             class="input"
-            type="digit"
+            type="number"
             placeholder="请输入预算金额"
             value="{{budgetAmount}}"
             bindinput="onAmountInput"

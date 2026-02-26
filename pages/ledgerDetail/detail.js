@@ -20,8 +20,10 @@ Page({
   },
 
   onLoad(options) {
+    // 设置账本编号和初始标签页
     this.setData({
-      ledgerNo: options.ledgerNo || ''
+      ledgerNo: options.ledgerNo || '',
+      tab: options.tab || 'bill' // 从URL参数中获取tab，默认为'bill'
     });
 
     // 获取账本详情
@@ -223,18 +225,53 @@ Page({
 
   // 监听预算金额输入
   onBudgetAmountInput(e) {
+    let value = e.detail.value;
+
+    // 只保留数字，移除所有非数字字符
+    value = value.replace(/\D/g, '');
+
+    // 移除前导零
+    value = value.replace(/^0+/, '');
+
+    // 如果清空了，允许为空字符串
+    if (value === '') {
+      this.setData({ newBudgetAmount: '' });
+      return;
+    }
+
+    // 转换为数字验证范围
+    const numValue = parseInt(value, 10);
+
+    // 限制最大值为9999999（小于10000000）
+    if (numValue > 9999999) {
+      value = '9999999';
+      wx.showToast({
+        title: '预算金额不能超过9999999',
+        icon: 'none'
+      });
+    }
+
     this.setData({
-      newBudgetAmount: e.detail.value
+      newBudgetAmount: value
     });
   },
 
   // 保存预算设置
   saveBudget() {
-    const amount = parseFloat(this.data.newBudgetAmount);
+    const amount = parseInt(this.data.newBudgetAmount, 10);
 
     if (isNaN(amount) || amount <= 0) {
       wx.showToast({
         title: '请输入有效金额',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 验证金额上限（小于10000000）
+    if (amount >= 10000000) {
+      wx.showToast({
+        title: '预算金额不能超过9999999',
         icon: 'none'
       });
       return;

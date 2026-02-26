@@ -4,13 +4,6 @@
     <input class="search-input" placeholder="搜索我的账本" value="{{searchQuery}}" bindinput="onSearch" />
   </view>
 
-  <!-- 本月预算卡片 -->
-  <budget-card
-    totalBudget="{{monthBudget.total}}"
-    usedAmount="{{monthBudget.used}}"
-    bindsetbudget="onSetBudget">
-  </budget-card>
-
   <view class="tabs">
     <view class="tab {{activeTab==='all'?'active':''}}" data-tab="all" bindtap="switchTab">全部</view>
     <view class="tab {{activeTab==='mine'?'active':''}}" data-tab="mine" bindtap="switchTab">我创建</view>
@@ -105,24 +98,6 @@
       <input class="join-input" placeholder="请输入邀请码" value="{{joinCode}}" bindinput="onJoinCodeInput" />
       <button class="join-btn" bindtap="joinLedger">加入</button>
       <view class="close-btn" bindtap="hideJoinModal">取消</view>
-    </view>
-  </view>
-
-  <!-- 设置预算弹窗 -->
-  <view class="budget-modal" wx:if="{{showBudgetModal}}" catchtouchmove="preventTouchMove">
-    <view class="budget-backdrop" bindtap="hideBudgetModal"></view>
-    <view class="budget-modal-content">
-      <view class="budget-modal-header">
-        <text class="budget-modal-title">设置本月预算</text>
-        <text class="budget-modal-close" bindtap="hideBudgetModal">×</text>
-      </view>
-      <view class="budget-modal-body">
-        <view class="budget-form-group">
-          <text class="budget-form-label">预算金额</text>
-          <input class="budget-form-input" type="digit" placeholder="请输入预算金额" value="{{newBudgetAmount}}" bindinput="onBudgetAmountInput" />
-        </view>
-        <button class="budget-submit-btn" bindtap="saveBudget">保存</button>
-      </view>
     </view>
   </view>
 </view> 

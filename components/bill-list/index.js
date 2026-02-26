@@ -107,11 +107,28 @@ Component({
 
       // 模拟网络请求延迟
       setTimeout(() => {
-        // 为每个账单项添加slideX属性，用于左滑删除
-        const bills = this.data.mockData.map(item => ({
-          ...item,
-          slideX: 0 // 初始滑动位置为0
-        }));
+        // 为每个账单项添加slideX属性和transactionType，用于左滑删除和显示收支
+        const bills = this.data.mockData.map((item, index) => {
+          // 取绝对值用于显示
+          const formattedAmount = Math.abs(item.amount);
+          // 根据金额判断收支类型：负数为收入（1），正数为支出（2）
+          const transactionType = item.amount < 0 ? 1 : 2;
+          // 提取日期部分（格式 "2026-02-26"）
+          const dateOnly = item.time ? item.time.split(' ')[0] : '';
+          // 检查是否需要显示日期头
+          let showDateHeader = false;
+          if (index === 0) {
+            showDateHeader = true; // 第一项总是显示日期头
+          }
+          return {
+            ...item,
+            formattedAmount: formattedAmount,
+            transactionType: transactionType, // 1=收入，2=支出
+            date: dateOnly, // 添加提取后的日期
+            showDateHeader: showDateHeader, // 添加是否显示日期头的标记
+            slideX: 0 // 初始滑动位置为0
+          };
+        });
 
         this.setData({
           bills,
@@ -169,17 +186,34 @@ Component({
       }
 
       // 处理每条交易记录，添加默认图标和滑动属性
-      return transactions.map(item => {
+      return transactions.map((item, index) => {
         // 根据分类名称选择合适的图标
         const icon = this.getCategoryIcon(item.categoryName);
+
+        // 计算格式化后的金额显示
+        const amountValue = item.amount || 0;
+        // 取绝对值用于显示
+        const formattedAmount = Math.abs(amountValue);
+
+        // 提取日期部分（格式 "2026-02-26"）
+        const dateOnly = item.time ? item.time.split(' ')[0] : '';
+        // 检查是否需要显示日期头
+        let showDateHeader = false;
+        if (index === 0) {
+          showDateHeader = true; // 第一项总是显示日期头
+        }
 
         return {
           no: item.no,
           categoryName: item.categoryName || '未分类',
           categoryIcon: item.categoryIcon || icon,
-          amount: item.amount || 0,
+          amount: amountValue,
+          formattedAmount: formattedAmount, // 添加格式化后的金额
           time: item.time || '',
+          date: dateOnly, // 添加提取后的日期
+          showDateHeader: showDateHeader, // 添加是否显示日期头的标记
           desc: item.desc || '',
+          transactionType: item.transactionType || 2, // 1=收入，2=支出，保存分类类型
           slideX: 0 // 初始滑动位置为0
         };
       });
@@ -213,7 +247,8 @@ Component({
       return categoryMap[categoryName] || '📝';
     },
 
-    // 格式化时间显示
+
+    // 格式化时间显示（月日 时分）
     formatTime(str) {
       if (!str) return '';
       try {

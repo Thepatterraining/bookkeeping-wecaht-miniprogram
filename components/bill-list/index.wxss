@@ -39,10 +39,19 @@
   overflow-y: auto;
 }
 
+/* 日期分组头 */
+.date-header {
+  font-size: 24rpx; /* 日期字体 */
+  color: #9aa3b2; /* 灰色文本 */
+  font-weight: 500; /* 略微加粗 */
+  padding: 16rpx 28rpx; /* 上下左右间距 */
+  background-color: #f9f9fb; /* 浅灰背景 */
+  border-top: 1rpx solid #f2f3f5; /* 上边框 */
+}
+
 /* 滑动删除相关样式 */
 .swipe-area {
   width: 100%;
-  height: 140rpx;
   position: relative;
   overflow: hidden;
 }
@@ -50,7 +59,7 @@
 /* 确保movable-area占满整个容器 */
 .swipe-area movable-area {
   width: 100%;
-  height: 100%;
+  height: 140rpx;
 }
 
 /* 滑动视图样式 */

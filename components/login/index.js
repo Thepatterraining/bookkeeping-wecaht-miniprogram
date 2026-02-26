@@ -510,42 +510,10 @@ Component({
       app.globalData.hasLogin = true;
       app.globalData.userInfo = userInfo;
 
-      // 触发登录成功事件
+      // 触发登录成功事件，让父页面处理后续逻辑
       this.triggerEvent('loginsuccess', {
         userInfo: userInfo
       });
-
-      // 如果有回调页面，则跳转
-      if (this.properties.callbackPage) {
-        // 判断是否是tabBar页面
-        const tabBarPages = [
-          '/pages/ledgerList/index',
-          '/pages/createLedger/index',
-          '/pages/mine/index'
-        ];
-
-        if (tabBarPages.includes(this.properties.callbackPage)) {
-          wx.switchTab({
-            url: this.properties.callbackPage
-          });
-        } else {
-          wx.redirectTo({
-            url: this.properties.callbackPage,
-            fail() {
-              // 如果重定向失败，尝试使用navigateTo
-              wx.navigateTo({
-                url: that.properties.callbackPage,
-                fail() {
-                  // 如果导航也失败，则回到首页
-                  wx.switchTab({
-                    url: '/pages/ledgerList/index'
-                  });
-                }
-              });
-            }
-          });
-        }
-      }
     },
 
     // 模拟登录成功

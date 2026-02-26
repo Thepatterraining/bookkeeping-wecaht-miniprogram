@@ -43,10 +43,12 @@
     </view>
   </view>
 
+  <!-- 分类选择器，根据当前选择的 type 传递 defaultType，限制只能选择对应类型的分类 -->
   <category-selector
     show="{{showCategoryPopup}}"
     selectedCategory="{{selectedCategory}}"
     selectedCategoryNo="{{selectedCategoryNo}}"
+    defaultType="{{type === 'expense' ? 'expense' : 'income'}}"
     bind:select="onCategorySelected"
     bind:close="closeCategoryPopup"
   />

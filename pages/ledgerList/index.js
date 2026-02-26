@@ -12,13 +12,7 @@ Page({
     showInviteModal: false, // 控制邀请成员弹窗显示
     currentLedger: null, // 当前选中的账本
     showJoinModal: false, // 控制加入账本弹窗显示
-    joinCode: '', // 加入账本的邀请码
-    monthBudget: {
-      total: 5000, // 默认预算金额
-      used: 2350  // 默认已使用金额
-    },
-    showBudgetModal: false, // 控制预算设置弹窗显示
-    newBudgetAmount: '' // 新预算金额
+    joinCode: '' // 加入账本的邀请码
   },
   onLoad() {
     // 记录当前页面路径，用于登录后跳转回来
@@ -30,7 +24,22 @@ Page({
 
     this.checkLoginStatus();
     this.initAndFetch();
-    this.fetchMonthBudget(); // 获取本月预算
+  },
+  onShow() {
+    // 每次页面显示时，都重新获取登录状态并刷新数据
+    const app = getApp();
+    const hasLogin = app.globalData.hasLogin;
+    const userInfo = app.globalData.userInfo;
+
+    this.setData({
+      hasLogin: hasLogin,
+      userInfo: userInfo
+    });
+
+    // 如果已登录，刷新账本列表
+    if (hasLogin) {
+      this.fetchLedgers();
+    }
   },
   onPullDownRefresh() {
     this.fetchLedgers();
@@ -499,69 +508,4 @@ Page({
     });
   },
 
-  // 获取本月预算
-  fetchMonthBudget() {
-    // 这里应该调用后端接口获取本月预算数据
-    // 现在使用模拟数据
-    const now = new Date();
-    const currentMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
-
-    // 模拟API调用
-    setTimeout(() => {
-      // 模拟数据，实际应从服务器获取
-      this.setData({
-        monthBudget: {
-          total: 5000,
-          used: 2350
-        }
-      });
-    }, 500);
-  },
-
-  // 显示设置预算弹窗
-  onSetBudget() {
-    this.setData({
-      showBudgetModal: true,
-      newBudgetAmount: String(this.data.monthBudget.total)
-    });
-  },
-
-  // 隐藏预算弹窗
-  hideBudgetModal() {
-    this.setData({
-      showBudgetModal: false
-    });
-  },
-
-  // 监听预算金额输入
-  onBudgetAmountInput(e) {
-    this.setData({
-      newBudgetAmount: e.detail.value
-    });
-  },
-
-  // 保存预算设置
-  saveBudget() {
-    const amount = parseFloat(this.data.newBudgetAmount);
-
-    if (isNaN(amount) || amount <= 0) {
-      wx.showToast({
-        title: '请输入有效金额',
-        icon: 'none'
-      });
-      return;
-    }
-
-    // 这里应该调用后端接口保存预算设置
-    // 现在使用模拟数据
-    this.setData({
-      'monthBudget.total': amount,
-      showBudgetModal: false
-    });
-
-    wx.showToast({
-      title: '预算设置成功',
-      icon: 'success'
-    });
-  }
 }) 

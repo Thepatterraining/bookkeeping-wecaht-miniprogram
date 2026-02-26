@@ -1,10 +1,4 @@
 <view class="container">
-  <view class="tabs">
-    <view class="tab {{tab==='bill' ? 'active' : ''}}" data-tab="bill" bindtap="switchTab">账单</view>
-    <view class="tab {{tab==='add' ? 'active' : ''}}" data-tab="add" bindtap="switchTab">记账</view>
-    <view class="tab {{tab==='stat' ? 'active' : ''}}" data-tab="stat" bindtap="switchTab">统计</view>
-    <view class="tab {{tab==='setting' ? 'active' : ''}}" data-tab="setting" bindtap="switchTab">设置</view>
-  </view>
   <view class="content">
     <block wx:if="{{tab==='bill'}}">
       <!-- 加载中提示 -->
@@ -77,6 +71,26 @@
     </block>
   </view>
 
+  <!-- 底部导航栏 -->
+  <view class="bottom-tabs">
+    <view class="bottom-tab {{tab==='bill' ? 'active' : ''}}" data-tab="bill" bindtap="switchTab">
+      <image class="tab-icon" src="{{tab==='bill' ? '/assets/icons/bill-active.png' : '/assets/icons/bill.png'}}" mode="aspectFit"></image>
+      <view class="tab-name">账单</view>
+    </view>
+    <view class="bottom-tab {{tab==='add' ? 'active' : ''}}" data-tab="add" bindtap="switchTab">
+      <image class="tab-icon tab-add-icon" src="{{tab==='add' ? '/assets/icons/add-active.png' : '/assets/icons/add.png'}}" mode="aspectFit"></image>
+      <view class="tab-name">记账</view>
+    </view>
+    <view class="bottom-tab {{tab==='stat' ? 'active' : ''}}" data-tab="stat" bindtap="switchTab">
+      <image class="tab-icon" src="{{tab==='stat' ? '/assets/icons/statistics-active.png' : '/assets/icons/statistics.png'}}" mode="aspectFit"></image>
+      <view class="tab-name">统计</view>
+    </view>
+    <view class="bottom-tab {{tab==='setting' ? 'active' : ''}}" data-tab="setting" bindtap="switchTab">
+      <image class="tab-icon" src="{{tab==='setting' ? '/assets/icons/my-active.png' : '/assets/icons/my.png'}}" mode="aspectFit"></image>
+      <view class="tab-name">设置</view>
+    </view>
+    </view>
+
   <!-- 设置预算弹窗 -->
   <view class="budget-modal" wx:if="{{showBudgetModal}}" catchtouchmove="preventTouchMove">
     <view class="budget-backdrop" bindtap="hideBudgetModal"></view>
@@ -88,10 +102,10 @@
       <view class="budget-modal-body">
         <view class="budget-form-group">
           <text class="budget-form-label">预算金额</text>
-          <input class="budget-form-input" type="digit" placeholder="请输入预算金额" value="{{newBudgetAmount}}" bindinput="onBudgetAmountInput" />
+          <input class="budget-form-input" type="number" placeholder="请输入预算金额" value="{{newBudgetAmount}}" bindinput="onBudgetAmountInput" />
         </view>
         <button class="budget-submit-btn" bindtap="saveBudget">保存</button>
       </view>
     </view>
   </view>
-</view> 
+</view>

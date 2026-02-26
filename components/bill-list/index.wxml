@@ -23,13 +23,17 @@
       <block wx:for="{{bills}}" wx:key="no">
         <!-- 滑动删除容器 -->
         <view class="swipe-area">
+          <!-- 日期分组头，在日期变化或是第一项时显示 -->
+          <view wx:if="{{index === 0 || item.date !== bills[index - 1].date}}" class="date-header">
+            {{item.date}}
+          </view>
           <movable-area style="width: 100%; height: 140rpx;">
             <movable-view class="swipe-item" direction="horizontal" x="{{item.slideX}}"
               out-of-bounds="true" damping="20" friction="2" disabled="{{false}}"
               bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd"
               data-index="{{index}}" data-no="{{item.no}}" style="width: calc(100% + 150rpx);">
-              <!-- 账单内容 -->
-              <view class="bill-item {{item.amount < 0 ? 'income' : 'expense'}}" bindtap="onTapItem" data-no="{{item.no}}">
+              <!-- 账单内容，根据 transactionType 判断收入或支出：1=收入显示+，2=支出显示- -->
+              <view class="bill-item {{item.transactionType === 1 ? 'income' : 'expense'}}" bindtap="onTapItem" data-no="{{item.no}}">
                 <view class="bill-left">
                   <view class="icon">{{item.categoryIcon || '📝'}}</view>
                   <view class="meta">
@@ -39,7 +43,8 @@
                   </view>
                 </view>
                 <view class="bill-right">
-                  <text class="amount {{item.amount < 0 ? 'income-text' : 'expense-text'}}">{{item.amount < 0 ? '+' : '-'}}¥{{formatAmount(Math.abs(item.amount))}}</text>
+                  <!-- transactionType: 1=收入显示+号，2=支出显示-号 -->
+                  <text class="amount {{item.transactionType === 1 ? 'income-text' : 'expense-text'}}">{{item.transactionType === 1 ? '+' : '-'}}¥{{item.formattedAmount}}</text>
                 </view>
               </view>
               <!-- 删除按钮 -->

@@ -11,6 +11,7 @@ Component({
     amount: '',
     selectedCategory: '',
     selectedCategoryNo: '',
+    selectedCategoryType: 1, // 选中分类的 type 字段，1=支出，2=收入
     date: '',
     displayDate: '', // 显示用的日期文案
     isRecurring: false,
@@ -66,7 +67,22 @@ Component({
   methods: {
     setType(e) {
       const nextType = e?.currentTarget?.dataset?.type || 'expense'
-      this.setData({ type: nextType })
+      // 如果类型发生变化，重置表单内容
+      if (this.data.type !== nextType) {
+        this.setData({
+          type: nextType,
+          amount: '', // 重置金额
+          selectedCategory: '', // 重置分类
+          selectedCategoryNo: '', // 重置分类编号
+          selectedCategoryType: nextType === 'expense' ? 1 : 2, // 重置分类 type 字段
+          remark: '', // 重置备注
+          isRecurring: false, // 重置循环记账
+          recurringTypeIndex: 0 // 重置循环类型
+        })
+      } else {
+        // 类型未变化，仅更新类型
+        this.setData({ type: nextType })
+      }
     },
 
     onAmountInput(e) {
@@ -175,14 +191,19 @@ Component({
     },
 
     onCategorySelected(e) {
-      const { name, no } = e.detail || {}
-      this.setData({ selectedCategory: name || '', selectedCategoryNo: no || '' })
+      const { name, no, categoryType } = e.detail || {}
+      // 保存分类信息，包括从后端返回的 categoryType
+      this.setData({ 
+        selectedCategory: name || '', 
+        selectedCategoryNo: no || '',
+        selectedCategoryType: categoryType || (this.data.type === 'expense' ? 1 : 2) // 保存分类的 type 字段
+      })
       this.closeCategoryPopup()
     },
 
     submitBill() {
       if (this.data.submitting) { return } // 防止重复点击
-      const { amount, selectedCategory, selectedCategoryNo, type, remark, date, isRecurring, recurringTypes, recurringTypeIndex, ledgerNo } = this.data
+      const { amount, selectedCategory, selectedCategoryNo, selectedCategoryType, type, remark, date, isRecurring, recurringTypes, recurringTypeIndex, ledgerNo } = this.data
 
       if (!amount) {
         wx.showToast({ title: '请输入金额', icon: 'none' })
@@ -229,7 +250,8 @@ Component({
       bills.forEach((bill) => {
         const payload = {
           categoryNo: bill.categoryNo,
-          categoryType: 1,
+          // categoryType: 使用分类返回的 type 字段（1=支出，2=收入）
+          categoryType: selectedCategoryType,
           transactionType: bill.type === 'expense' ? 2 : 1,
           transactionDesc: remark || '',
           ledgerNo: ledgerNo,
@@ -260,18 +282,26 @@ Component({
                 duration: 1200
               })
               if (allOk) {
+                // 延迟后切换到账单页面并刷新数据
                 setTimeout(() => {
-                  // 成功后跳转到账单页面（修改为账单列表页面）
-                  // 切换到账单标签页
+                  // 获取页面栈并获取当前页面
                   const pages = getCurrentPages()
-                  const currentPage = pages[pages.length - 1]
-                  if (currentPage && currentPage.route.includes('ledgerDetail')) {
-                    // 如果当前在账本详情页，直接切换标签
-                    currentPage.setData({ tab: 'bill' })
-                  } else {
-                    // 否则跳转到账本详情页的账单标签
-                    const to = `/pages/ledgerDetail/detail?ledgerNo=${encodeURIComponent(ledgerNo || '')}&tab=bill`
-                    wx.navigateTo({ url: to })
+                  const currentPage = pages[pages.length - 1] // 获取顶部页面（当前页面）
+                  
+                  // 检查是否在ledgerDetail页面（支持不同的路由命名方式）
+                  if (currentPage) {
+                    const pagePath = currentPage.route || '' // 页面路由
+                    const isLedgerDetailPage = pagePath.includes('ledgerDetail') || pagePath.includes('detail') // 检查是否是账本详情页
+                    
+                    if (isLedgerDetailPage) {
+                      // 如果在账本详情页，切换到账单标签页并刷新数据
+                      currentPage.setData({ tab: 'bill' }) // 切换到账单标签页
+                      currentPage.fetchLedgerDetail() // 刷新账本详情（包括预算和收支统计）
+                    } else {
+                      // 否则导航到账本详情页的账单标签
+                      const target = `/pages/ledgerDetail/detail?ledgerNo=${encodeURIComponent(ledgerNo || '')}&tab=bill` // 拼接跳转URL
+                      wx.navigateTo({ url: target }) // 跳转到目标页面
+                    }
                   }
                 }, 400)
               }
@@ -280,6 +310,7 @@ Component({
                 amount: '',
                 selectedCategory: '',
                 selectedCategoryNo: '',
+                selectedCategoryType: this.data.type === 'expense' ? 1 : 2, // 重置分类 type 字段
                 remark: '',
                 isRecurring: false,
                 recurringTypeIndex: 0,

@@ -1,7 +1,7 @@
 /* 整体容器 */
 .container {
   padding: 30rpx;
-  padding-bottom: 130rpx; /* 为底部按钮留出空间 */
+  padding-bottom: 250rpx; /* 为底部按钮和底部导航栏留出空间 */
   background: #f8fafd;
   min-height: 100vh;
   display: flex;
@@ -123,7 +123,7 @@
 .button-group {
   width: 100%;
   position: fixed;
-  bottom: 0;
+  bottom: 180rpx; /* 在底部导航栏上方，底部导航栏高度约120rpx */
   left: 0;
   right: 0;
   background: #f8fafd;

@@ -56,24 +56,125 @@
   margin-bottom: 30rpx;
 }
 
-.category-item {
+/* 空状态提示 */
+.empty-state {
+  /* 弹性布局：中心对齐 */
   display: flex;
-  justify-content: space-between;
+  /* 垂直方向 */
+  flex-direction: column;
+  /* 水平居中 */
+  justify-content: center;
+  /* 垂直居中 */
   align-items: center;
+  /* 最小高度 */
+  min-height: 300rpx;
+  /* 文字颜色 */
+  color: #999;
+  /* 字体大小 */
+  font-size: 28rpx;
+}
+
+/* 一级分类样式 */
+.category-parent-item {
+  /* 弹性布局：水平排列，左右两端对齐 */
+  display: flex;
+  /* 左右两端对齐 */
+  justify-content: space-between;
+  /* 垂直居中对齐 */
+  align-items: center;
+  /* 白色背景 */
   background: #fff;
+  /* 内边距 */
   padding: 24rpx;
-  margin-bottom: 16rpx;
+  /* 下外边距 */
+  margin-bottom: 8rpx;
+  /* 圆角半径 */
   border-radius: 12rpx;
+  /* 阴影效果 */
   box-shadow: 0 2rpx 8rpx rgba(74, 79, 159, 0.05);
+  /* 左侧蓝色竖条装饰 */
+  border-left: 4rpx solid #6c72cb;
+  /* 字体粗体 */
+  font-weight: 500;
+  /* 过渡效果 */
+  transition: all 0.3s ease;
+  /* 鼠标指针显示为手指 */
+  cursor: pointer;
+}
+
+/* 一级分类悬停效果 */
+.category-parent-item:active {
+  /* 缩放效果 */
+  transform: scale(0.98);
+  /* 点击时增加阴影 */
+  box-shadow: 0 4rpx 12rpx rgba(74, 79, 159, 0.1);
+}
+
+/* 二级分类样式 */
+.category-sub-item {
+  /* 弹性布局：水平排列 */
+  display: flex;
+  /* 左右两端对齐 */
+  justify-content: space-between;
+  /* 垂直居中对齐 */
+  align-items: center;
+  /* 浅蓝色背景 */
+  background: rgba(108, 114, 203, 0.05);
+  /* 内边距 */
+  padding: 20rpx 24rpx;
+  /* 左侧增加缩进距离 */
+  margin-left: 40rpx;
+  /* 下外边距 */
+  margin-bottom: 8rpx;
+  /* 圆角半径 */
+  border-radius: 8rpx;
+  /* 阴影效果 */
+  box-shadow: 0 1rpx 4rpx rgba(74, 79, 159, 0.03);
+}
+
+/* 二级分类缩进指示 */
+.sub-category-indent {
+  /* 宽度为0（隐藏） */
+  width: 0;
 }
 
 .category-info {
+  /* 弹性布局：水平排列 */
   display: flex;
+  /* 垂直居中对齐 */
   align-items: center;
 }
 
+/* 展开/收起箭头样式 */
+.expand-icon {
+  /* 字体大小 */
+  font-size: 24rpx;
+  /* 右侧内边距 */
+  margin-right: 12rpx;
+  /* 过渡效果：平滑旋转 */
+  transition: transform 0.3s ease;
+  /* 颜色与主题色相同 */
+  color: #6c72cb;
+  /* 显示为内联块元素以支持旋转 */
+  display: inline-block;
+}
+
+/* 展开状态的箭头（90度旋转向下） */
+.expand-icon.expanded {
+  /* 不需要额外旋转，箭头已经向下 */
+  transform: rotate(0deg);
+}
+
+/* 收起状态的箭头（需要旋转为向右） */
+.expand-icon:not(.expanded) {
+  /* 向右旋转90度 */
+  transform: rotate(-90deg);
+}
+
 .category-icon {
+  /* 分类图标的字体大小 */
   font-size: 36rpx;
+  /* 分类图标的右侧外边距 */
   margin-right: 20rpx;
 }
 
@@ -86,18 +187,40 @@
   display: flex;
 }
 
+/* 操作按钮样式 */
 .action-icon {
+  /* 操作按钮的字体大小 */
   font-size: 32rpx;
+  /* 操作按钮的内边距 */
   padding: 10rpx;
+  /* 操作按钮之间的左外边距 */
   margin-left: 10rpx;
+  /* 操作按钮的过渡效果 */
+  transition: transform 0.2s ease;
 }
 
+/* 操作按钮悬停效果 */
+.action-icon:active {
+  /* 点击时的缩放效果 */
+  transform: scale(1.2);
+}
+
+/* 编辑按钮的颜色 */
 .action-icon.edit {
+  /* 编辑按钮颜色 */
   color: #6c72cb;
 }
 
+/* 删除按钮的颜色 */
 .action-icon.delete {
+  /* 删除按钮颜色 */
   color: #e26d89;
+}
+
+/* 添加子分类按钮的颜色 */
+.action-icon.add {
+  /* 添加子分类按钮颜色 */
+  color: #52c41a;
 }
 
 /* 添加分类按钮 */

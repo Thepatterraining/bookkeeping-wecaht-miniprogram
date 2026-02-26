@@ -16,11 +16,14 @@ Page({
   },
 
   onShow(){
-    // 获取全局登录状态
+    // 每次页面显示时，都重新获取登录状态
     const app = getApp();
+    const hasLogin = app.globalData.hasLogin;
+    const userInfo = app.globalData.userInfo;
+
     this.setData({
-      hasLogin: app.globalData.hasLogin,
-      userInfo: app.globalData.userInfo
+      hasLogin: hasLogin,
+      userInfo: userInfo
     });
   },
 
@@ -59,6 +62,11 @@ Page({
       showLoginModal: false,
       hasLogin: true,
       userInfo: e.detail.userInfo
+    });
+
+    // 登录成功后，切换到账本列表页面
+    wx.switchTab({
+      url: '/pages/ledgerList/index'
     });
   },
 
