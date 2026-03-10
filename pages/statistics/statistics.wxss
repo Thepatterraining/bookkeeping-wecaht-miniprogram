@@ -1,14 +1,34 @@
+/**
+ * 统计页面样式
+ * 支持屏幕尺寸：320px - 414px
+ */
+
+/* ==================== 页面容器 ==================== */
+
 .container {
   padding: 20rpx;
   background-color: #f5f5f5;
   min-height: 100vh;
+  /* 添加内边距底部，避免内容被遮挡 */
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
 }
+
+/* 小屏幕适配 */
+@media screen and (max-width: 320px) {
+  .container {
+    padding: 16rpx;
+  }
+}
+
+/* ==================== 时间选择器 ==================== */
 
 .time-selector {
   background-color: white;
   padding: 20rpx;
   border-radius: 20rpx;
   margin-bottom: 20rpx;
+  /* 添加阴影效果 */
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
 .picker-content {
@@ -17,12 +37,34 @@
   align-items: center;
   font-size: 32rpx;
   color: #333;
+  /* 点击态过渡 */
+  transition: opacity 0.2s ease;
+}
+
+.picker-content:active {
+  opacity: 0.7;
 }
 
 .arrow {
   font-size: 24rpx;
   color: #999;
+  /* 箭头过渡效果 */
+  transition: transform 0.3s ease;
 }
+
+/* 小屏幕适配 */
+@media screen and (max-width: 320px) {
+  .time-selector {
+    padding: 16rpx;
+    border-radius: 16rpx;
+    margin-bottom: 16rpx;
+  }
+  .picker-content {
+    font-size: 28rpx;
+  }
+}
+
+/* ==================== 收支概览卡片 ==================== */
 
 .overview-card {
   background-color: white;
@@ -31,10 +73,14 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 20rpx;
+  /* 添加阴影效果 */
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
 .overview-item {
   text-align: center;
+  /* 弹性扩展 */
+  flex: 1;
 }
 
 .label {
@@ -47,6 +93,13 @@
 .value {
   font-size: 36rpx;
   font-weight: bold;
+  /* 过渡效果 */
+  transition: transform 0.2s ease;
+}
+
+/* 点击态 */
+.overview-item:active .value {
+  transform: scale(1.05);
 }
 
 .value.income {
@@ -57,11 +110,30 @@
   color: #ff4d4f;
 }
 
+/* 小屏幕适配 */
+@media screen and (max-width: 320px) {
+  .overview-card {
+    padding: 24rpx 16rpx;
+    border-radius: 16rpx;
+    margin-bottom: 16rpx;
+  }
+  .label {
+    font-size: 24rpx;
+  }
+  .value {
+    font-size: 32rpx;
+  }
+}
+
+/* ==================== 分类统计区块 ==================== */
+
 .stat-section {
   background-color: white;
   border-radius: 20rpx;
   padding: 30rpx;
   margin-bottom: 20rpx;
+  /* 添加阴影效果 */
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
 .section-header {
@@ -94,10 +166,16 @@
   align-items: center;
   padding: 20rpx 0;
   border-bottom: 1rpx solid #f5f5f5;
+  /* 点击态过渡 */
+  transition: background-color 0.2s ease;
 }
 
 .category-item:last-child {
   border-bottom: none;
+}
+
+.category-item:active {
+  background-color: #fafafa;
 }
 
 .category-info {
@@ -124,4 +202,29 @@
 .percentage {
   font-size: 24rpx;
   color: #999;
+}
+
+/* 小屏幕适配 */
+@media screen and (max-width: 320px) {
+  .stat-section {
+    padding: 24rpx;
+    border-radius: 16rpx;
+    margin-bottom: 16rpx;
+  }
+  .section-header {
+    margin-bottom: 20rpx;
+  }
+  .title {
+    font-size: 28rpx;
+  }
+  .total {
+    font-size: 24rpx;
+  }
+  .name,
+  .amount {
+    font-size: 26rpx;
+  }
+  .percentage {
+    font-size: 22rpx;
+  }
 } 

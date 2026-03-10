@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "统计",
-  "usingComponents": {}
+  "usingComponents": {
+    "line-chart": "/components/line-chart/index"
+  }
 } 

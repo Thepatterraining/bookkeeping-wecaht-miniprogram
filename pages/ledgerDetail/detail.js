@@ -1,3 +1,13 @@
+// 引入 dayjs 日期处理库（用于统计功能）
+const dayjs = require('../../libs/dayjs/dayjs.min');
+// 引入 weekOfYear 插件，用于获取周数
+const weekOfYear = require('../../libs/dayjs/plugin/weekOfYear');
+// 引入 isoWeek 插件，用于 ISO 周计算
+const isoWeek = require('../../libs/dayjs/plugin/isoWeek');
+// 扩展 dayjs
+dayjs.extend(weekOfYear);
+dayjs.extend(isoWeek);
+
 Page({
   data: {
     ledgerNo: '',
@@ -16,7 +26,14 @@ Page({
     newBudgetAmount: '', // 新预算金额
     currentYear: new Date().getFullYear(), // 当前选择的年份
     currentMonth: new Date().getMonth() + 1, // 当前选择的月份
-    loading: false // 加载状态
+    loading: false, // 加载状态
+    // 统计相关数据
+    statBills: [], // 账单数据（用于统计）
+    chartData: [], // 折线图数据
+    timeDimension: 'day', // 当前时间维度
+    // 饼图相关数据
+    expenseCategoryData: [], // 支出分类数据
+    incomeCategoryData: [] // 收入分类数据
   },
 
   onLoad(options) {
@@ -157,6 +174,11 @@ Page({
   switchTab(e) {
     const tab = e.currentTarget.dataset.tab;
     this.setData({ tab });
+    
+    // 切换到统计tab时加载数据
+    if (tab === 'stat') {
+      this.loadStatData();
+    }
   },
 
   // 获取月度数据（备用方法，当API调用失败时使用）
@@ -330,5 +352,305 @@ Page({
   // 防止滚动穿透
   preventTouchMove() {
     return false;
+  },
+
+  // ==================== 统计相关方法 ====================
+
+  /**
+   * 加载统计数据
+   * 当切换到统计tab时调用
+   */
+  loadStatData() {
+    // TODO: 调用API获取账单数据
+    // 这里使用模拟数据
+    const mockBills = [
+      // 支出数据
+      { id: 1, amount: 150, type: 'expense', category: '餐饮', date: dayjs().format('YYYY-MM-DD') },
+      { id: 2, amount: 80, type: 'expense', category: '交通', date: dayjs().subtract(1, 'day').format('YYYY-MM-DD') },
+      { id: 3, amount: 200, type: 'expense', category: '购物', date: dayjs().subtract(2, 'day').format('YYYY-MM-DD') },
+      { id: 4, amount: 300, type: 'expense', category: '餐饮', date: dayjs().subtract(3, 'day').format('YYYY-MM-DD') },
+      { id: 5, amount: 120, type: 'expense', category: '娱乐', date: dayjs().subtract(4, 'day').format('YYYY-MM-DD') },
+      { id: 6, amount: 500, type: 'expense', category: '购物', date: dayjs().subtract(5, 'day').format('YYYY-MM-DD') },
+      { id: 7, amount: 60, type: 'expense', category: '交通', date: dayjs().subtract(6, 'day').format('YYYY-MM-DD') },
+      { id: 8, amount: 180, type: 'expense', category: '餐饮', date: dayjs().subtract(1, 'day').format('YYYY-MM-DD') },
+      { id: 9, amount: 350, type: 'expense', category: '医疗', date: dayjs().subtract(2, 'day').format('YYYY-MM-DD') },
+      { id: 10, amount: 90, type: 'expense', category: '娱乐', date: dayjs().subtract(3, 'day').format('YYYY-MM-DD') },
+      // 收入数据
+      { id: 11, amount: 8000, type: 'income', category: '工资', date: dayjs().subtract(2, 'day').format('YYYY-MM-DD') },
+      { id: 12, amount: 500, type: 'income', category: '奖金', date: dayjs().subtract(3, 'day').format('YYYY-MM-DD') },
+      { id: 13, amount: 200, type: 'income', category: '理财', date: dayjs().subtract(5, 'day').format('YYYY-MM-DD') },
+      { id: 14, amount: 1000, type: 'income', category: '兼职', date: dayjs().subtract(6, 'day').format('YYYY-MM-DD') }
+    ];
+    
+    // 更新账单数据和图表数据
+    this.setData({ statBills: mockBills });
+    this.updateChartData();
+    // 更新分类数据（用于饼图）
+    this.updateCategoryData();
+  },
+
+  /**
+   * 更新折线图数据
+   */
+  updateChartData() {
+    const { statBills, timeDimension } = this.data;
+    let chartData = [];
+
+    switch (timeDimension) {
+      case 'day':
+        chartData = this.aggregateByDay(statBills);
+        break;
+      case 'week':
+        chartData = this.aggregateByWeek(statBills);
+        break;
+      case 'month':
+        chartData = this.aggregateByMonth(statBills);
+        break;
+      default:
+        chartData = this.aggregateByDay(statBills);
+    }
+
+    this.setData({ chartData });
+  },
+
+  /**
+   * 时间维度切换事件
+   */
+  onDimensionChange(e) {
+    const { dimension } = e.detail;
+    this.setData({ timeDimension: dimension });
+    this.updateChartData();
+  },
+
+  /**
+   * 数据点点击事件
+   */
+  onDataPointClick(e) {
+    console.log('[ledgerDetail] 点击数据点:', e.detail);
+  },
+
+  /**
+   * 图表重试事件
+   */
+  onChartRetry() {
+    this.loadStatData();
+  },
+
+  /**
+   * 饼图类型切换事件
+   */
+  onPieTypeChange(e) {
+    console.log('[ledgerDetail] 饼图类型切换:', e.detail);
+  },
+
+  /**
+   * 饼图重试事件
+   */
+  onPieRetry() {
+    this.loadStatData();
+  },
+
+  /**
+   * 按天聚合
+   */
+  aggregateByDay(bills) {
+    if (!Array.isArray(bills)) return [];
+
+    const dateArray = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = dayjs().subtract(i, 'day');
+      dateArray.push({
+        dateStr: date.format('YYYY-MM-DD'),
+        displayDate: date.format('MM-DD')
+      });
+    }
+
+    const dailyMap = new Map();
+    dateArray.forEach(item => {
+      dailyMap.set(item.dateStr, {
+        date: item.displayDate,
+        income: 0,
+        expense: 0
+      });
+    });
+
+    bills.forEach(bill => {
+      const billDate = bill.date || bill.time?.substring(0, 10);
+      if (!billDate || !dailyMap.has(billDate)) return;
+
+      const dayData = dailyMap.get(billDate);
+      const amount = bill.amount || 0;
+      if (amount < 0) {
+        dayData.income += Math.abs(amount);
+      } else {
+        dayData.expense += amount;
+      }
+    });
+
+    return Array.from(dailyMap.values());
+  },
+
+  /**
+   * 按周聚合
+   */
+  aggregateByWeek(bills) {
+    if (!Array.isArray(bills)) return [];
+
+    const today = dayjs();
+    const thisMonday = today.isoWeekday(1);
+    const weekArray = [];
+
+    for (let i = 3; i >= 0; i--) {
+      const weekMonday = thisMonday.subtract(i, 'week');
+      const weekSunday = weekMonday.add(6, 'day');
+      weekArray.push({
+        startDate: weekMonday.format('YYYY-MM-DD'),
+        endDate: weekSunday.format('YYYY-MM-DD'),
+        label: `第${4 - i}周`
+      });
+    }
+
+    const weeklyMap = new Map();
+    weekArray.forEach(item => {
+      weeklyMap.set(item.startDate, {
+        date: item.label,
+        startDate: item.startDate,
+        endDate: item.endDate,
+        income: 0,
+        expense: 0
+      });
+    });
+
+    bills.forEach(bill => {
+      const billDate = bill.date || bill.time?.substring(0, 10);
+      if (!billDate) return;
+
+      for (const [, weekData] of weeklyMap) {
+        if (billDate >= weekData.startDate && billDate <= weekData.endDate) {
+          const amount = bill.amount || 0;
+          if (amount < 0) {
+            weekData.income += Math.abs(amount);
+          } else {
+            weekData.expense += amount;
+          }
+          break;
+        }
+      }
+    });
+
+    return Array.from(weeklyMap.values()).map(item => ({
+      date: item.date,
+      income: item.income,
+      expense: item.expense
+    }));
+  },
+
+  /**
+   * 按月聚合
+   */
+  aggregateByMonth(bills) {
+    if (!Array.isArray(bills)) return [];
+
+    const today = dayjs();
+    const monthArray = [];
+
+    for (let i = 5; i >= 0; i--) {
+      const monthDate = today.subtract(i, 'month');
+      monthArray.push({
+        yearMonth: monthDate.format('YYYY-MM'),
+        displayMonth: monthDate.format('MM月')
+      });
+    }
+
+    const monthlyMap = new Map();
+    monthArray.forEach(item => {
+      monthlyMap.set(item.yearMonth, {
+        date: item.displayMonth,
+        income: 0,
+        expense: 0
+      });
+    });
+
+    bills.forEach(bill => {
+      const billDate = bill.date || bill.time?.substring(0, 10);
+      if (!billDate) return;
+
+      const billYearMonth = billDate.substring(0, 7);
+      if (!monthlyMap.has(billYearMonth)) return;
+
+      const monthData = monthlyMap.get(billYearMonth);
+      const amount = bill.amount || 0;
+      if (amount < 0) {
+        monthData.income += Math.abs(amount);
+      } else {
+        monthData.expense += amount;
+      }
+    });
+
+    return Array.from(monthlyMap.values());
+  },
+
+  /**
+   * 按分类聚合数据
+   * @param {Array} bills - 账单数据
+   * @param {String} type - 类型（income/expense）
+   * @returns {Array} 聚合后的分类数据
+   */
+  aggregateByCategory(bills, type) {
+    // 参数校验
+    if (!Array.isArray(bills) || bills.length === 0) {
+      return [];
+    }
+
+    // 使用 Map 进行聚合
+    const categoryMap = new Map();
+
+    // 遍历账单数据
+    bills.forEach(bill => {
+      // 获取账单类型和金额
+      const billType = bill.type || (bill.amount < 0 ? 'income' : 'expense');
+      const amount = Math.abs(bill.amount || 0);
+      const category = bill.category || '其他';
+
+      // 筛选指定类型的数据
+      if (type === 'expense' && billType !== 'expense') return;
+      if (type === 'income' && billType !== 'income') return;
+
+      // 累加金额
+      if (categoryMap.has(category)) {
+        categoryMap.set(category, categoryMap.get(category) + amount);
+      } else {
+        categoryMap.set(category, amount);
+      }
+    });
+
+    // 转换为数组并排序
+    const result = [];
+    categoryMap.forEach((value, name) => {
+      result.push({ name, value });
+    });
+
+    // 按金额降序排序
+    result.sort((a, b) => b.value - a.value);
+
+    return result;
+  },
+
+  /**
+   * 更新分类数据
+   */
+  updateCategoryData() {
+    const { statBills } = this.data;
+
+    // 聚合支出分类数据
+    const expenseCategoryData = this.aggregateByCategory(statBills, 'expense');
+    // 聚合收入分类数据
+    const incomeCategoryData = this.aggregateByCategory(statBills, 'income');
+
+    // 更新数据
+    this.setData({
+      expenseCategoryData,
+      incomeCategoryData
+    });
   }
 }) 

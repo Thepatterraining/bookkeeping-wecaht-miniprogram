@@ -30,7 +30,28 @@
       <add-form ledgerNo="{{ledgerNo}}" />
     </block>
     <block wx:if="{{tab==='stat'}}">
-      <navigator url="/pages/statistics/statistics?ledgerNo={{ledgerNo}}">打开统计页</navigator>
+      <!-- 统计tab内容 -->
+      <view class="stat-container">
+        <!-- 收支趋势折线图 -->
+        <line-chart 
+          chart-title="收支趋势"
+          chart-data="{{chartData}}"
+          default-dimension="{{timeDimension}}"
+          bind:dimensionchange="onDimensionChange"
+          bind:datapointclick="onDataPointClick"
+          bind:retry="onChartRetry"
+        ></line-chart>
+        
+        <!-- 分类统计饼图 -->
+        <pie-chart
+          chart-title="分类统计"
+          expense-data="{{expenseCategoryData}}"
+          income-data="{{incomeCategoryData}}"
+          default-type="expense"
+          bind:typechange="onPieTypeChange"
+          bind:retry="onPieRetry"
+        ></pie-chart>
+      </view>
     </block>
     <block wx:if="{{tab==='setting'}}">
       <view class="setting-container">

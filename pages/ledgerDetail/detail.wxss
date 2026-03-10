@@ -225,3 +225,8 @@
     transform: rotate(360deg);
   }
 }
+
+/* 统计tab容器样式 */
+.stat-container {
+  padding: 0;
+}

@@ -1,0 +1,20 @@
+<!--
+  ECharts 微信小程序适配组件模板
+  @description 提供 Canvas 容器用于渲染 ECharts 图表
+  @version 1.0.0
+  @author 记账小程序团队
+-->
+
+<!-- Canvas 容器 -->
+<view class="ec-container" style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;">
+  <!-- Canvas 元素 -->
+  <canvas
+    type="2d"
+    id="{{canvasId}}"
+    class="ec-canvas"
+    style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
+    bindtouchstart="touchStart"
+    bindtouchmove="touchMove"
+    bindtouchend="touchEnd"
+  ></canvas>
+</view>

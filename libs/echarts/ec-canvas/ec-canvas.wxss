@@ -1,0 +1,26 @@
+/**
+ * ECharts 微信小程序适配组件样式
+ * @description 定义 Canvas 容器和 Canvas 元素的样式
+ * @version 1.0.0
+ * @author 记账小程序团队
+ */
+
+/* Canvas 容器样式 */
+.ec-container {
+  /* 相对定位，作为 Canvas 的定位参考 */
+  position: relative;
+  /* 隐藏溢出内容 */
+  overflow: hidden;
+  /* 默认宽度 100% */
+  width: 100%;
+}
+
+/* Canvas 元素样式 */
+.ec-canvas {
+  /* 宽度 100%，自适应容器 */
+  width: 100%;
+  /* 高度 100%，自适应容器 */
+  height: 100%;
+  /* 显示为块级元素 */
+  display: block;
+}

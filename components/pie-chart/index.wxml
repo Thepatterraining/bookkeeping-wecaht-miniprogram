@@ -1,0 +1,53 @@
+<!--
+  饼图组件模板
+  用于展示分类收支统计的饼图组件
+  包含标题区域、类型切换（收入/支出）、Canvas 图表区域、空状态展示
+-->
+<view class="pie-chart-container">
+  <!-- 头部区域：标题和类型切换 -->
+  <view class="chart-header">
+    <!-- 左侧标题 -->
+    <view class="chart-title">{{chartTitle}}</view>
+    
+    <!-- 右侧收入/支出切换按钮组 -->
+    <view class="type-tabs">
+      <view 
+        class="tab-item {{currentType === 'expense' ? 'active' : ''}}"
+        bindtap="switchType"
+        data-type="expense"
+      >支出</view>
+      <view 
+        class="tab-item {{currentType === 'income' ? 'active' : ''}}"
+        bindtap="switchType"
+        data-type="income"
+      >收入</view>
+    </view>
+  </view>
+  
+  <!-- 图表主体区域 -->
+  <view class="chart-body">
+    <!-- Canvas 容器，用于 ECharts 渲染 -->
+    <view class="chart-wrapper" wx:if="{{!isEmpty && !hasError}}">
+      <ec-canvas 
+        id="piechart"
+        canvas-id="piechart-canvas"
+        ec="{{ ec }}"
+      ></ec-canvas>
+    </view>
+    
+    <!-- 空状态展示 -->
+    <view class="empty-state" wx:if="{{isEmpty}}">
+      <view class="empty-icon">🥧</view>
+      <view class="empty-text">暂无数据</view>
+      <view class="empty-hint">当前没有{{currentType === 'expense' ? '支出' : '收入'}}记录</view>
+    </view>
+    
+    <!-- 错误状态展示 -->
+    <view class="error-state" wx:if="{{hasError}}">
+      <view class="error-icon">⚠️</view>
+      <view class="error-text">{{errorMessage}}</view>
+      <view class="retry-btn" bindtap="retryLoad">重试</view>
+    </view>
+  </view>
+  
+</view>

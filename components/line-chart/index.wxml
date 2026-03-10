@@ -1,0 +1,69 @@
+<!--
+  折线图组件模板
+  用于展示收支趋势的折线图组件
+  包含标题区域、时间维度切换、Canvas 图表区域、空状态展示
+-->
+<view class="line-chart-container">
+  <!-- 头部区域：标题和图例 -->
+  <view class="chart-header">
+    <!-- 左侧标题 -->
+    <view class="chart-title">{{chartTitle}}</view>
+    
+    <!-- 右侧时间维度切换按钮组 -->
+    <view class="dimension-tabs">
+      <view 
+        class="tab-item {{currentDimension === 'day' ? 'active' : ''}}"
+        bindtap="switchDimension"
+        data-dimension="day"
+      >日</view>
+      <view 
+        class="tab-item {{currentDimension === 'week' ? 'active' : ''}}"
+        bindtap="switchDimension"
+        data-dimension="week"
+      >周</view>
+      <view 
+        class="tab-item {{currentDimension === 'month' ? 'active' : ''}}"
+        bindtap="switchDimension"
+        data-dimension="month"
+      >月</view>
+    </view>
+  </view>
+  
+  <!-- 图表主体区域 -->
+  <view class="chart-body">
+    <!-- Canvas 容器，用于 ECharts 渲染 -->
+    <view class="chart-wrapper" wx:if="{{!isEmpty && !hasError}}">
+      <ec-canvas 
+        id="linechart"
+        canvas-id="linechart-canvas"
+        ec="{{ ec }}"
+      ></ec-canvas>
+    </view>
+    
+    <!-- 空状态展示 -->
+    <view class="empty-state" wx:if="{{isEmpty}}">
+      <view class="empty-icon">📊</view>
+      <view class="empty-text">暂无数据</view>
+      <view class="empty-hint">当前时间范围内没有收支记录</view>
+    </view>
+    
+    <!-- 错误状态展示 -->
+    <view class="error-state" wx:if="{{hasError}}">
+      <view class="error-icon">⚠️</view>
+      <view class="error-text">{{errorMessage}}</view>
+      <view class="retry-btn" bindtap="retryLoad">重试</view>
+    </view>
+  </view>
+  
+  <!-- 底部图例说明 -->
+  <view class="chart-footer" wx:if="{{!isEmpty && !hasError}}">
+    <view class="legend-item">
+      <view class="legend-dot income"></view>
+      <view class="legend-label">收入</view>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot expense"></view>
+      <view class="legend-label">支出</view>
+    </view>
+  </view>
+</view>

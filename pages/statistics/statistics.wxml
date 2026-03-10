@@ -31,6 +31,16 @@
     </view>
   </view>
 
+  <!-- 收支趋势折线图 -->
+  <line-chart 
+    chart-title="收支趋势"
+    chart-data="{{chartData}}"
+    default-dimension="{{timeDimension}}"
+    bind:dimensionchange="onDimensionChange"
+    bind:datapointclick="onDataPointClick"
+    bind:retry="onChartRetry"
+  ></line-chart>
+
   <!-- 支出分类统计 -->
   <view class="stat-section">
     <view class="section-header">
